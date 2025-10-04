@@ -1,0 +1,11 @@
+{
+  "tasks": {
+    "dev": "deno run --watch -A server.ts",
+    "run": "deno run -A server.ts",
+    "smoke": "deno run -A main.ts",
+    "cache": "deno cache server.ts sdk.ts config.ts main.ts"
+  },
+  "compilerOptions": {
+    "strict": true
+  }
+}
