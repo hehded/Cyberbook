@@ -1,175 +1,348 @@
 <!doctype html>
-<html lang="ru">
-
+<html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>PC Map — Booking</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes" />
+    <meta name="theme-color" content="#0a0f1a" />
+    <title>Cyberbook — PC Gaming Club</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* =========================
-           THEME (palette & effects)
-           ========================= */
+        /* Premium Theme */
         :root {
-            /* Base */
-            --bg: #0b1220;
+            --bg: #050a12;
             --bg-2: #0a0f1a;
-            --card: #0f1724;
-            --muted: #9fb1c5;
-            --text: #eaf2fb;
-
-            /* Accents */
-            --accent: #7c7ffd;
-            /* слегка теплее, лучше видимость на тёмном фоне */
-            --accent-2: #5c5fff;
-            --accent-3: #a58fff;
-
-            /* Status */
+            --bg-3: #0f1520;
+            --card: linear-gradient(145deg, rgba(17, 24, 39, 0.95), rgba(15, 23, 42, 0.9));
+            --card-hover: linear-gradient(145deg, rgba(20, 28, 45, 0.98), rgba(17, 25, 44, 0.95));
+            --muted: #94a3b8;
+            --text: #f1f5f9;
+            --text-bright: #ffffff;
+            --accent: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent-hover: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            --accent-glow: #667eea;
+            --accent-soft: rgba(102, 126, 234, 0.12);
             --free: #10b981;
+            --free-glow: rgba(16, 185, 129, 0.3);
             --busy: #3b82f6;
+            --busy-glow: rgba(59, 130, 246, 0.3);
             --booked: #f59e0b;
-
-            /* Surfaces */
-            --glass: rgba(255, 255, 255, 0.04);
-            --glass-2: rgba(255, 255, 255, 0.06);
-            --border: rgba(255, 255, 255, 0.08);
-            --border-2: rgba(255, 255, 255, 0.12);
-
-            /* Shadows / blurs */
-            --shadow-1: 0 8px 24px rgba(10, 17, 32, 0.45);
-            --shadow-2: 0 18px 48px rgba(10, 17, 32, 0.55);
-            --ring: 0 0 0 3px rgba(124, 127, 253, 0.15);
-            --blur: saturate(140%) blur(10px);
+            --booked-glow: rgba(245, 158, 11, 0.3);
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-strong: rgba(255, 255, 255, 0.08);
+            --border: rgba(255, 255, 255, 0.06);
+            --border-strong: rgba(255, 255, 255, 0.12);
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.4);
+            --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.5);
+            --shadow-glow: 0 0 24px rgba(102, 126, 234, 0.15);
+            --blur: saturate(180%) blur(20px);
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
         }
 
-        /* Reset & base */
         * {
-            box-sizing: border-box
-        }
-
-        html,
-        body {
-            height: 100%
-        }
-
-        body {
+            box-sizing: border-box;
             margin: 0;
-            font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-            color: var(--text);
-            background:
-                radial-gradient(1200px 800px at 10% -10%, rgba(124, 127, 253, 0.12), transparent 50%),
-                radial-gradient(900px 600px at 100% 0%, rgba(99, 102, 241, 0.10), transparent 45%),
-                linear-gradient(180deg, #071224 0%, #060e1d 100%);
-            -webkit-font-smoothing: antialiased;
+            padding: 0;
         }
 
-        /* Subtle noise overlay for depth */
+        html {
+            font-size: 16px;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        @media (max-width: 768px) {
+            html { font-size: 15px; }
+        }
+
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: var(--text);
+            background: var(--bg);
+            background-image: 
+                radial-gradient(ellipse 120% 80% at 10% -10%, rgba(102, 126, 234, 0.15), transparent 50%),
+                radial-gradient(ellipse 100% 70% at 90% 110%, rgba(118, 75, 162, 0.12), transparent 50%),
+                radial-gradient(ellipse 80% 60% at 50% 50%, rgba(102, 126, 234, 0.05), transparent 50%);
+            background-attachment: fixed;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
+        }
+
         body::before {
             content: "";
             position: fixed;
             inset: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.08) 0%, transparent 50%);
+            animation: bgPulse 20s ease-in-out infinite alternate;
             pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/fi%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.025'/%3E%3C/svg%3E");
+        }
+
+        @keyframes bgPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            opacity: 0.5;
         }
 
         /* Layout */
         .container {
-            max-width: 1400px;
-            margin: 24px auto;
-            padding: 18px;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: var(--space-lg);
             display: grid;
-            grid-template-columns: 300px 1fr 300px;
-            gap: 20px;
+            grid-template-columns: 320px 1fr 320px;
+            gap: var(--space-lg);
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 1400px) {
+            .container {
+                grid-template-columns: 280px 1fr 280px;
+                gap: var(--space-md);
+                padding: var(--space-md);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+                padding: var(--space-sm);
+            }
+            #leftSidebar { order: 2; }
+            main { order: 1; }
+            #rightSidebar { order: 3; }
+        }
+
+        @media (max-width: 640px) {
+            .container {
+                padding: var(--space-sm);
+                gap: var(--space-sm);
+            }
         }
 
         /* Header */
         .header {
             display: flex;
-            gap: 12px;
+            gap: var(--space-md);
             align-items: center;
-            margin-bottom: 20px;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(124, 127, 253, 0.08), rgba(99, 102, 241, 0.04));
-            border-radius: 16px;
-            border: 1px solid rgba(124, 127, 253, 0.12);
-            box-shadow: 0 8px 32px rgba(10, 17, 32, 0.25);
+            flex-wrap: wrap;
+            margin-bottom: var(--space-lg);
+            padding: var(--space-lg);
+            background: var(--card);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-strong);
+            backdrop-filter: var(--blur);
+            box-shadow: var(--shadow-md), var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--accent);
+            opacity: 0.8;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: var(--space-md);
+                margin-bottom: var(--space-md);
+            }
         }
 
         .brand {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: var(--space-xs);
+            flex: 1;
+            min-width: 200px;
         }
 
         .h1 {
-            font-size: 20px;
+            font-size: clamp(1.25rem, 3vw, 1.5rem);
             margin: 0;
-            letter-spacing: .2px;
-            font-weight: 700;
-            background: linear-gradient(135deg, var(--accent), var(--accent-3));
+            letter-spacing: -0.02em;
+            font-weight: 800;
+            background: var(--accent);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .h1 i {
+            background: var(--accent);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .small {
-            font-size: 13px;
+            font-size: 0.875rem;
             color: var(--muted);
-            opacity: 0.85;
+            font-weight: 500;
+        }
+
+        @media (max-width: 640px) {
+            .h1 { font-size: 1.125rem; }
+            .small { font-size: 0.8125rem; }
         }
 
         /* Controls */
         .controls {
             margin-left: auto;
             display: flex;
-            gap: 8px;
+            gap: var(--space-sm);
             align-items: center;
+            flex-wrap: wrap;
         }
 
+        @media (max-width: 768px) {
+            .controls {
+                margin-left: 0;
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        /* Buttons */
         .btn {
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03));
+            background: var(--glass-strong);
             border: 1px solid var(--border);
-            padding: 9px 13px;
-            border-radius: 12px;
+            padding: 0.625rem 1rem;
+            border-radius: var(--radius-md);
             color: var(--text);
             cursor: pointer;
-            transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
-            box-shadow: 0 2px 0 rgba(255, 255, 255, 0.04) inset, var(--shadow-1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-sm);
             backdrop-filter: var(--blur);
+            font-weight: 500;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--glass);
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
         .btn:hover {
-            transform: translateY(-1px);
-            background: var(--glass-2);
-            border-color: var(--border-2)
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--border-strong);
         }
 
-        .btn:active {
-            transform: translateY(0) scale(.98)
-        }
+        .btn:hover::before { opacity: 1; }
+        .btn:active { transform: translateY(0) scale(0.98); }
 
         .btn.primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent-2));
-            border: 1px solid rgba(124, 127, 253, .45);
-            box-shadow: 0 8px 22px rgba(124, 127, 253, .22), var(--shadow-1);
+            background: var(--accent);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            box-shadow: var(--shadow-md), 0 0 20px rgba(102, 126, 234, 0.2);
+            color: var(--text-bright);
+            font-weight: 600;
         }
 
         .btn.primary:hover {
-            background: linear-gradient(135deg, var(--accent-3), var(--accent));
-            box-shadow: 0 10px 26px rgba(124, 127, 253, .28), var(--shadow-2);
+            box-shadow: var(--shadow-lg), 0 0 30px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn i { font-size: 0.875rem; }
+
+        @media (max-width: 640px) {
+            .btn {
+                padding: 0.5rem 0.875rem;
+                font-size: 0.8125rem;
+                min-height: 44px;
+            }
+        }
+
+        /* Input fields */
+        .input, select, textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: rgba(15, 21, 32, 0.6);
+            color: var(--text);
+            transition: all 0.3s ease;
+            margin-bottom: var(--space-md);
+            font-family: inherit;
+            font-size: 0.9375rem;
+            backdrop-filter: var(--blur);
+        }
+
+        .input::placeholder, textarea::placeholder {
+            color: rgba(148, 163, 184, 0.5);
+        }
+
+        .input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1), var(--shadow-sm);
+            background: rgba(15, 21, 32, 0.8);
+        }
+
+        @media (max-width: 640px) {
+            .input, select, textarea {
+                font-size: 1rem;
+                min-height: 44px;
+            }
         }
 
         /* Cards */
         .card {
-            background:
-                linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02)),
-                linear-gradient(0deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.02));
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 18px;
-            border-radius: 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: var(--space-lg);
+            border-radius: var(--radius-lg);
             backdrop-filter: var(--blur);
-            box-shadow: var(--shadow-1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--shadow-md);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
@@ -181,71 +354,111 @@
             left: 0;
             right: 0;
             height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            background: var(--accent);
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
+        }
+
+        .card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(102, 126, 234, 0.08), transparent 50%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
         }
 
         .card:hover {
-            border-color: rgba(124, 127, 253, 0.2);
-            box-shadow: 0 12px 40px rgba(10, 17, 32, 0.4), 0 0 0 1px rgba(124, 127, 253, 0.1) inset;
+            border-color: rgba(102, 126, 234, 0.3);
+            box-shadow: var(--shadow-lg), var(--shadow-glow);
+            transform: translateY(-2px);
         }
 
-        .card:hover::before {
-            opacity: 1;
+        .card:hover::before, .card:hover::after { opacity: 1; }
+
+        @media (max-width: 640px) {
+            .card { padding: var(--space-md); }
         }
 
         /* Map */
         .mapWrap {
-            height: 72vh;
-            border-radius: 14px;
+            height: min(75vh, 700px);
+            border-radius: var(--radius-lg);
             overflow: hidden;
             position: relative;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset, var(--shadow-2);
+            box-shadow: var(--shadow-lg), 0 0 0 1px var(--border-strong) inset;
         }
 
         .mapWrap::after {
-            /* лёгкая виньетка по краям, чтобы карта выглядела аккуратнее */
             content: "";
             position: absolute;
             inset: 0;
             pointer-events: none;
-            box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.35);
+            box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.3);
         }
 
         canvas {
             width: 100%;
             height: 100%;
-            display: block
+            display: block;
+            cursor: default;
+        }
+
+        @media (max-width: 1024px) {
+            .mapWrap { height: 60vh; }
+        }
+
+        @media (max-width: 640px) {
+            .mapWrap {
+                height: 50vh;
+                min-height: 400px;
+            }
         }
 
         /* Sidebar */
         .sidebar {
             display: flex;
             flex-direction: column;
-            gap: 12px
+            gap: var(--space-md);
         }
 
         .list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            max-height: 45vh;
+            gap: var(--space-sm);
+            max-height: 50vh;
             overflow-y: auto;
             overflow-x: hidden;
-            padding-right: 4px;
-            scrollbar-gutter: stable;
+            padding-right: var(--space-xs);
+        }
+
+        .list::-webkit-scrollbar { width: 6px; }
+        .list::-webkit-scrollbar-track {
+            background: var(--glass);
+            border-radius: 3px;
+        }
+        .list::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+        .list::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-hover);
+        }
+        .list {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(102, 126, 234, 0.5) transparent;
         }
 
         .item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 14px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.02));
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            background: var(--glass);
+            border: 1px solid var(--border);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
@@ -257,35 +470,22 @@
             top: 0;
             bottom: 0;
             width: 3px;
-            background: linear-gradient(180deg, var(--accent), var(--accent-2));
+            background: var(--accent);
             opacity: 0;
             transition: opacity 0.3s ease;
         }
 
         .item:hover {
             transform: translateY(-1px);
-            border-color: rgba(124, 127, 253, 0.18);
-            box-shadow: 0 8px 24px rgba(10, 17, 32, 0.3), 0 0 0 1px rgba(124, 127, 253, 0.08) inset;
-            background: linear-gradient(135deg, rgba(124, 127, 253, 0.06), rgba(99, 102, 241, 0.03));
+            border-color: rgba(102, 126, 234, 0.3);
+            box-shadow: var(--shadow-md), var(--shadow-glow);
+            background: var(--glass-strong);
         }
 
-        .item:hover::before {
-            opacity: 1;
-        }
+        .item:hover::before { opacity: 1; }
 
-        /* Legend */
-        .legend {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            font-size: 13px;
-            color: var(--muted)
-        }
-
-        .kv {
-            display: flex;
-            gap: 8px;
-            align-items: center
+        @media (max-width: 640px) {
+            .item { padding: var(--space-sm) var(--space-md); }
         }
 
         /* Modals */
@@ -295,38 +495,31 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(2, 6, 23, 0.85);
-            z-index: 200;
-            backdrop-filter: blur(16px) saturate(180%);
-            animation: fadeIn .3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(5, 10, 18, 0.9);
+            z-index: 1000;
+            backdrop-filter: blur(24px) saturate(180%);
+            animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: var(--space-md);
+            overflow-y: auto;
         }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0
-            }
-
-            to {
-                opacity: 1
-            }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modalCard {
             width: 100%;
             max-width: 560px;
-            background:
-                linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(11, 18, 32, 0.95)),
-                linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03));
-            padding: 28px;
-            border-radius: 20px;
-            border: 1px solid rgba(124, 127, 253, 0.15);
-            box-shadow:
-                0 24px 64px rgba(0, 0, 0, 0.6),
-                0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-                0 0 48px rgba(124, 127, 253, 0.12);
-            animation: modalSlideIn .35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: var(--card);
+            padding: var(--space-xl);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--border-strong);
+            box-shadow: var(--shadow-lg), 0 0 60px rgba(102, 126, 234, 0.15);
+            animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
             overflow: hidden;
+            backdrop-filter: var(--blur);
         }
 
         .modalCard::before {
@@ -336,15 +529,14 @@
             left: 0;
             right: 0;
             height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--accent-3));
+            background: var(--accent);
         }
 
         @keyframes modalSlideIn {
             from {
                 opacity: 0;
-                transform: translateY(20px) scale(.94);
+                transform: translateY(30px) scale(0.95);
             }
-
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -352,214 +544,98 @@
         }
 
         .modal h3 {
-            margin: 0 0 20px 0;
-            font-size: 20px;
+            margin: 0 0 var(--space-lg) 0;
+            font-size: 1.5rem;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: var(--space-md);
             font-weight: 700;
-            background: linear-gradient(135deg, var(--text), var(--muted));
+            background: var(--accent);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        /* Inputs */
-        .form-row {
-            display: flex;
-            gap: 8px
-        }
-
-        .input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px 12px;
-            border-radius: 10px;
-            border: 1px solid var(--border);
-            background: linear-gradient(180deg, #0a1322, #0b1526);
-            color: var(--text);
-            transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
-            margin-bottom: 12px;
-            box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.02);
-        }
-
-        .input::placeholder,
-        textarea::placeholder {
-            color: rgba(159, 177, 197, .55)
-        }
-
-        .input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: rgba(124, 127, 253, .55);
-            box-shadow: var(--ring);
+        @media (max-width: 640px) {
+            .modal {
+                padding: var(--space-sm);
+                align-items: flex-start;
+            }
+            .modalCard {
+                padding: var(--space-lg);
+                max-width: 100%;
+                margin-top: var(--space-md);
+            }
+            .modal h3 { font-size: 1.25rem; }
         }
 
         /* Tooltip */
         .tooltip {
             position: fixed !important;
-            /* было absolute, меняем на fixed */
             pointer-events: none;
-            background: rgba(7, 18, 38, 0.98);
-            padding: 12px 14px;
-            border-radius: 10px;
-            font-size: 13px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
-            max-width: 280px;
-            line-height: 1.35;
-            z-index: 1000;
+            background: rgba(10, 15, 26, 0.98);
+            padding: var(--space-md);
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            border: 1px solid var(--border-strong);
+            box-shadow: var(--shadow-lg);
+            max-width: 320px;
+            line-height: 1.5;
+            z-index: 2000;
+            backdrop-filter: var(--blur);
         }
 
-        .tooltip::after {
-            display: none;
-            /* Убираем стрелочку, она мешает правильному позиционированию */
-        }
-
-        /* PC Info Modal tweaks */
-        .pc-info-modal .modalCard {
-            max-width: 440px;
-        }
+        /* PC Info Modal */
+        .pc-info-modal .modalCard { max-width: 480px; }
 
         .pc-info-header {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 16px;
-            padding: 14px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.015));
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.07);
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            padding: var(--space-md);
+            background: var(--glass);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
         }
 
         .pc-status-icon {
-            font-size: 20px;
-            width: 40px;
-            height: 40px;
+            font-size: 1.5rem;
+            width: 48px;
+            height: 48px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
         }
 
         .pc-status-icon.free {
             background: rgba(16, 185, 129, 0.12);
-            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.18) inset
+            box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.2) inset, 0 0 12px var(--free-glow);
         }
 
         .pc-status-icon.busy {
             background: rgba(59, 130, 246, 0.12);
-            box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.18) inset
+            box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2) inset, 0 0 12px var(--busy-glow);
         }
 
         .pc-status-icon.booked {
             background: rgba(245, 158, 11, 0.12);
-            box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.18) inset
+            box-shadow: 0 0 0 1px rgba(245, 158, 11, 0.2) inset, 0 0 12px var(--booked-glow);
         }
 
-        .booking-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .booking-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px;
-            border-radius: 10px;
-            background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02));
-            border: 1px solid rgba(245, 158, 11, 0.24);
-        }
-
-        .booking-time {
-            font-weight: 600;
-            color: var(--booked)
-        }
-
-        .booking-client {
-            font-size: 13px;
-            color: var(--muted)
-        }
-
-        /* Responsive */
-        @media(max-width:1200px) {
-            .container {
-                grid-template-columns: 1fr;
-                padding: 12px;
-            }
-
-            #leftSidebar {
-                order: 2;
-            }
-
-            main {
-                order: 1;
-            }
-
-            #rightSidebar {
-                order: 3;
-            }
-
-            .mapWrap {
-                height: 60vh;
-            }
-
-            .controls {
-                gap: 6px;
-            }
-
-            .btn {
-                padding: 8px 11px;
-            }
-        }
-
-        /* Scrollbars (WebKit) */
-        .list::-webkit-scrollbar {
-            width: 10px
-        }
-
-        .list::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 10px
-        }
-
-        .list::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, rgba(124, 127, 253, .35), rgba(124, 127, 253, .25));
-            border-radius: 10px;
-            border: 2px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .list::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, rgba(124, 127, 253, .55), rgba(124, 127, 253, .35))
-        }
-
-        /* Utility: nicer colored chips in legend */
-        .legend .kv span {
-            width: 10px;
-            height: 10px;
-            display: inline-block;
-            border-radius: 3px;
-            margin-right: 6px;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18) inset, 0 1px 6px rgba(0, 0, 0, 0.25);
-        }
-
-        /* Loading states */
+        /* Utility */
         .skeleton {
             background: linear-gradient(
                 90deg,
-                rgba(255, 255, 255, 0.03) 0%,
-                rgba(255, 255, 255, 0.08) 50%,
-                rgba(255, 255, 255, 0.03) 100%
+                var(--glass) 0%,
+                var(--glass-strong) 50%,
+                var(--glass) 100%
             );
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
         }
 
         @keyframes shimmer {
@@ -569,21 +645,21 @@
 
         .skeleton-text {
             height: 16px;
-            margin-bottom: 8px;
+            margin-bottom: var(--space-sm);
         }
 
         .skeleton-title {
             height: 20px;
             width: 60%;
-            margin-bottom: 12px;
+            margin-bottom: var(--space-md);
         }
 
         .spinner {
             display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(124, 127, 253, 0.2);
-            border-top-color: var(--accent);
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-top-color: var(--accent-glow);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
@@ -592,62 +668,30 @@
             to { transform: rotate(360deg); }
         }
 
-        /* Better button icons spacing */
-        .btn i, .controls button i {
-            margin-right: 6px;
+        *:focus-visible {
+            outline: 2px solid var(--accent-glow);
+            outline-offset: 2px;
         }
 
-        /* Smooth page transitions */
-        * {
-            transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-            transition-duration: 0.2s;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Disable transitions on animations */
-        @keyframes fadeIn, modalSlideIn, shimmer, spin {
-            * { transition: none !important; }
+        @media (hover: none) and (pointer: coarse) {
+            .btn, .item { min-height: 44px; }
         }
     </style>
 </head>
-<div id="gamesModal" style="display:none" class="modal">
-    <div class="modalCard" style="max-width: 900px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h3>◆ Club Games</h3>
-            <button onclick="closeGamesModal()"
-                style="background:none; border:none; color:var(--muted); cursor:pointer; font-size:18px;">×</button>
-        </div>
-
-        <div id="gamesFilter" style="margin-bottom: 16px;">
-            <select id="gameGroupFilter" class="input" style="width: 200px; margin-bottom: 0;">
-                <option value="">All games</option>
-            </select>
-            <label style="margin-left: 16px;">
-                <input type="checkbox" id="popularOnly"> Popular only
-            </label>
-        </div>
-
-        <div id="gamesGrid"
-            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; max-height: 60vh; overflow-y: auto;">
-            <!-- Игры будут загружены динамически -->
-        </div>
-    </div>
-</div>
-
 <body>
     <div class="container">
         <!-- Левый сайдбар -->
         <aside class="sidebar" id="leftSidebar">
             <div class="card">
-                <div class="small" style="margin-bottom:12px; font-weight:600; display:flex; align-items:center; gap:8px;">
-                    <i class="fas fa-award" style="color:var(--accent);"></i> My Achievements
+                <div class="small" style="margin-bottom:var(--space-md); font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
+                    <i class="fas fa-trophy" style="color:var(--accent-glow);"></i> Achievements
                 </div>
                 <div id="achievements" class="list"></div>
             </div>
 
             <div class="card">
-                <div class="small" style="margin-bottom:12px; font-weight:600; display:flex; align-items:center; gap:8px;">
-                    <i class="fas fa-calendar-alt" style="color:var(--booked);"></i> My Bookings
+                <div class="small" style="margin-bottom:var(--space-md); font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
+                    <i class="fas fa-calendar-check" style="color:var(--booked);"></i> My Bookings
                 </div>
                 <div id="myBookings" class="list"></div>
             </div>
@@ -657,23 +701,38 @@
         <main>
             <div class="header">
                 <div class="brand">
-                    <div class="h1"><i class="fas fa-map-marked-alt"></i> PC Map — Online Booking</div>
-                    <div class="small"><i class="fas fa-desktop"></i> Club hosts and their statuses</div>
+                    <div class="h1">
+                        <i class="fas fa-gamepad"></i>
+                        Cyberbook
+                    </div>
+                    <div class="small">
+                        <i class="fas fa-desktop"></i> Premium Gaming Club
+                    </div>
                 </div>
                 <div class="controls">
                     <select id="groupFilter" class="input" style="width:180px; margin-bottom:0;">
-                        <option value="">🏢 All groups</option>
+                        <option value="">All Groups</option>
                     </select>
-                    <button id="refresh" class="btn"><i class="fas fa-sync-alt"></i> Refresh</button>
-                    <button onclick="openLeaderboardModal()"
-                        style="padding: 12px 24px; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: 500;">
-                        <i class="fas fa-trophy"></i> Leaderboard
+                    <button id="refresh" class="btn">
+                        <i class="fas fa-sync-alt"></i>
+                        <span class="hide-mobile">Refresh</span>
                     </button>
-                    <button id="gamesBtn" class="btn"><i class="fas fa-gamepad"></i> Games</button>
+                    <button onclick="openLeaderboardModal()" class="btn">
+                        <i class="fas fa-trophy"></i>
+                        <span class="hide-mobile">Leaderboard</span>
+                    </button>
+                    <button id="gamesBtn" class="btn">
+                        <i class="fas fa-gamepad"></i>
+                        <span class="hide-mobile">Games</span>
+                    </button>
                     <button id="bookSelectedBtn" class="btn primary" style="display:none;">
-                        <i class="fas fa-calendar-check"></i> Book selected (<span id="selectedCount">0</span>)
+                        <i class="fas fa-calendar-check"></i>
+                        Book (<span id="selectedCount">0</span>)
                     </button>
-                    <button id="authBtn" class="btn primary"><i class="fas fa-user-circle"></i> Login</button>
+                    <button id="authBtn" class="btn primary">
+                        <i class="fas fa-user-circle"></i>
+                        <span class="hide-mobile">Login</span>
+                    </button>
                 </div>
             </div>
 
@@ -685,25 +744,48 @@
         <!-- Правый сайдбар -->
         <aside class="sidebar" id="rightSidebar">
             <div class="card">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-                    <div class="small" style="font-weight:600; display:flex; align-items:center; gap:8px;">
-                        <i class="fas fa-chart-pie" style="color:var(--accent);"></i> Summary
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md)">
+                    <div class="small" style="font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
+                        <i class="fas fa-chart-pie" style="color:var(--accent-glow);"></i> Summary
                     </div>
-                    <div id="userInfo" class="small" style="color:var(--muted); display:flex; align-items:center; gap:6px;">
-                        <i class="fas fa-wallet" style="font-size:11px;"></i>
+                    <div id="userInfo" class="small" style="color:var(--muted); display:flex; align-items:center; gap:var(--space-sm);">
                     </div>
                 </div>
                 <div id="summary"></div>
             </div>
 
             <div class="card">
-                <div class="small" style="margin-bottom:12px; font-weight:600; display:flex; align-items:center; gap:8px;">
-                    <i class="fas fa-clock" style="color:var(--free);"></i> Upcoming Bookings (24h)
+                <div class="small" style="margin-bottom:var(--space-md); font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
+                    <i class="fas fa-clock" style="color:var(--free);"></i> Upcoming Bookings
                 </div>
                 <div id="upcomingBookings" class="list"></div>
             </div>
         </aside>
-    </div>с
+    </div>
+
+    <!-- Games Modal -->
+    <div id="gamesModal" style="display:none" class="modal">
+        <div class="modalCard" style="max-width: 900px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
+                <h3><i class="fas fa-gamepad"></i> Club Games</h3>
+                <button onclick="closeGamesModal()"
+                    style="background:none; border:none; color:var(--muted); cursor:pointer; font-size:28px; transition:color 0.2s;"
+                    onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">×</button>
+            </div>
+
+            <div id="gamesFilter" style="margin-bottom: var(--space-md); display:flex; gap:var(--space-md); flex-wrap:wrap; align-items:center;">
+                <select id="gameGroupFilter" class="input" style="width: 200px; margin-bottom: 0;">
+                    <option value="">All games</option>
+                </select>
+                <label style="display:flex; align-items:center; gap:var(--space-sm); cursor:pointer;">
+                    <input type="checkbox" id="popularOnly" style="cursor:pointer;"> Popular only
+                </label>
+            </div>
+
+            <div id="gamesGrid"
+                style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--space-md); max-height: 60vh; overflow-y: auto;">
+            </div>
+        </div>
     </div>
 
     <!-- PC Info Modal -->
@@ -711,23 +793,27 @@
         <div class="modalCard">
             <div class="pc-info-header">
                 <div class="pc-status-icon" id="pcStatusIcon"></div>
-                <div>
-                    <h3 id="pcInfoTitle" style="margin:0"></h3>
+                <div style="flex:1;">
+                    <h3 id="pcInfoTitle" style="margin:0; font-size:1.25rem;"></h3>
                     <div class="small" id="pcInfoGroup"></div>
                 </div>
                 <button onclick="closePcInfoModal()"
-                    style="margin-left:auto; background:none; border:1px solid rgba(255,255,255,0.12); border-radius:8px; padding:2px 8px; color:var(--muted); cursor:pointer; font-size:16px;">×</button>
+                    style="background:none; border:1px solid var(--border); border-radius:var(--radius-sm); padding:4px 12px; color:var(--muted); cursor:pointer; font-size:20px; transition:all 0.2s;"
+                    onmouseover="this.style.borderColor='var(--border-strong)'; this.style.color='var(--text)'"
+                    onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--muted)'">×</button>
             </div>
 
             <div id="pcCurrentStatus"></div>
 
             <div id="pcBookings" style="display:none">
-                <div class="small" style="margin-bottom:8px">▸ Future bookings:</div>
-                <div class="booking-list" id="pcBookingsList"></div>
+                <div class="small" style="margin-bottom:var(--space-sm); font-weight:500;">Future bookings:</div>
+                <div class="booking-list" id="pcBookingsList" style="display:flex; flex-direction:column; gap:var(--space-sm);"></div>
             </div>
 
-            <div style="display:flex; gap:8px; margin-top:16px;">
-                <button id="pcInfoBookBtn" class="btn primary" style="flex:1">→ Book</button>
+            <div style="display:flex; gap:var(--space-sm); margin-top:var(--space-lg);">
+                <button id="pcInfoBookBtn" class="btn primary" style="flex:1">
+                    <i class="fas fa-calendar-plus"></i> Book
+                </button>
                 <button onclick="closePcInfoModal()" class="btn">Close</button>
             </div>
         </div>
@@ -736,35 +822,37 @@
     <!-- Login Modal -->
     <div id="loginScreen" style="display:none" class="modal">
         <div class="modalCard">
-            <h3>● Client Login</h3>
-            <div style="margin-top:12px">
-                <label class="label small">▸ Phone</label>
+            <h3><i class="fas fa-sign-in-alt"></i> Client Login</h3>
+            <div style="margin-top:var(--space-md)">
+                <label class="label small" style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Phone</label>
                 <input id="loginInput" class="input" placeholder="+371..." />
             </div>
-            <div style="margin-top:12px">
-                <label class="label small">▸ Password</label>
+            <div style="margin-top:var(--space-md)">
+                <label class="label small" style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Password</label>
                 <input id="passwordInput" class="input" type="password" placeholder="••••••••" />
             </div>
-            <div style="display:flex;gap:8px;margin-top:14px">
-                <button id="loginSubmit" class="btn primary">→ Login</button>
-                <button id="loginCancel" class="btn">× Cancel</button>
+            <div style="display:flex;gap:var(--space-sm);margin-top:var(--space-lg);">
+                <button id="loginSubmit" class="btn primary" style="flex:1;">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+                <button id="loginCancel" class="btn">Cancel</button>
             </div>
-            <div id="loginError" style="color:#f87171;margin-top:8px"></div>
+            <div id="loginError" style="color:#f87171;margin-top:var(--space-md); font-size:0.875rem;"></div>
         </div>
     </div>
 
     <!-- Booking Modal -->
     <div id="bookingModal" style="display:none" class="modal">
         <div class="modalCard">
-            <h3 id="bookingTitle">▸ Book a Seat</h3>
-            <div id="selectedHostInfo" style="margin:10px 0;color:var(--muted)"></div>
+            <h3 id="bookingTitle"><i class="fas fa-calendar-check"></i> Book a Seat</h3>
+            <div id="selectedHostInfo" style="margin:var(--space-md) 0;color:var(--muted); font-size:0.875rem;"></div>
 
-            <div style="margin-top:10px">
-                <label class="label small">▸ Start time *</label>
+            <div style="margin-top:var(--space-md)">
+                <label class="label small" style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Start time</label>
                 <input id="datetime" class="input" type="datetime-local" />
             </div>
-            <div style="margin-top:10px">
-                <label class="label small">▸ Duration (hours)</label>
+            <div style="margin-top:var(--space-md)">
+                <label class="label small" style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Duration</label>
                 <select id="duration" class="input">
                     <option value="1">1 hour</option>
                     <option value="2">2 hours</option>
@@ -774,39 +862,44 @@
                     <option value="8">8 hours</option>
                 </select>
             </div>
-            <div style="margin-top:10px">
-                <label class="label small">▸ Comment</label>
+            <div style="margin-top:var(--space-md)">
+                <label class="label small" style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Comment (optional)</label>
                 <textarea id="comment" class="input" rows="3" placeholder="Additional requests..."></textarea>
             </div>
 
-            <div style="display:flex;gap:8px;margin-top:14px">
-                <button id="cancelBooking" class="btn">× Cancel</button>
-                <button id="confirmBooking" class="btn primary">→ Book</button>
+            <div style="display:flex;gap:var(--space-sm);margin-top:var(--space-lg)">
+                <button id="cancelBooking" class="btn">Cancel</button>
+                <button id="confirmBooking" class="btn primary" style="flex:1;">
+                    <i class="fas fa-check"></i> Confirm Booking
+                </button>
             </div>
-            <div id="formMessage" style="margin-top:8px"></div>
+            <div id="formMessage" style="margin-top:var(--space-md); font-size:0.875rem;"></div>
         </div>
     </div>
-    <div id="tooltip" class="tooltip" style="display:none"></div>
 
     <!-- Leaderboard Modal -->
-    <div id="leaderboardModal"
-        style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:2000; padding:20px; overflow-y:auto;">
-        <div style="max-width:600px; margin:40px auto; background:var(--card); border-radius:12px; padding:24px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                <h2 style="margin:0; font-size:24px;">★ Leaderboard</h2>
+    <div id="leaderboardModal" style="display:none" class="modal">
+        <div class="modalCard" style="max-width:700px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-lg);">
+                <h3 style="margin:0;"><i class="fas fa-trophy"></i> Leaderboard</h3>
                 <button onclick="closeLeaderboardModal()"
-                    style="background:none; border:none; font-size:28px; cursor:pointer; color:var(--text);">×</button>
+                    style="background:none; border:none; font-size:28px; cursor:pointer; color:var(--muted); transition:color 0.2s;"
+                    onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">×</button>
             </div>
 
-            <div id="leaderboardMonth" class="small" style="margin-bottom:16px; color:var(--muted);"></div>
+            <div id="leaderboardMonth" class="small" style="margin-bottom:var(--space-lg); color:var(--muted); font-weight:500;"></div>
 
-            <div id="leaderboardContent" style="display:flex; flex-direction:column; gap:8px;">
-                <div style="text-align:center; padding:40px; color:var(--muted);">Loading...</div>
+            <div id="leaderboardContent" style="display:flex; flex-direction:column; gap:var(--space-sm);">
+                <div style="text-align:center; padding:var(--space-xl); color:var(--muted);">
+                    <div class="spinner" style="margin:0 auto var(--space-md);"></div>
+                    Loading...
+                </div>
             </div>
         </div>
     </div>
-    <script>
 
+    <div id="tooltip" class="tooltip" style="display:none"></div>
+<script>
         let allGames = [];
 
         async function loadGames() {
@@ -830,10 +923,7 @@
         }
 
         function populateGameGroups() {
-            if (!Array.isArray(allGames)) {
-                console.error('allGames is not an array');
-                return;
-            }
+            if (!Array.isArray(allGames)) return;
 
             const select = document.getElementById('gameGroupFilter');
             const groups = [...new Set(allGames.map(g => g.group?.title).filter(Boolean))];
@@ -863,18 +953,12 @@
             renderGames(filtered);
         }
 
-
-
-
-
         function renderGames(games) {
             const grid = document.getElementById('gamesGrid');
-
-            // Filter only games, remove APPLICATION
             const gamesOnly = games.filter(game => game.type !== 'APPLICATION');
 
             if (!gamesOnly || gamesOnly.length === 0) {
-                grid.innerHTML = '<div style="color:var(--muted); text-align: center; grid-column: 1/-1;">No games found</div>';
+                grid.innerHTML = '<div style="color:var(--muted); text-align: center; grid-column: 1/-1; padding:var(--space-xl);">No games found</div>';
                 return;
             }
 
@@ -886,33 +970,33 @@
                 let iconHtml;
                 if (game.icon_path) {
                     iconHtml = `<img src="${game.icon_path}" style="width: 48px; height: 48px; object-fit: contain;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
-                       <div style="font-size: 28px; display: none;">◆</div>`;
+                       <div style="font-size: 32px; display: none;">🎮</div>`;
                 } else if (game.main_picture) {
-                    iconHtml = `<img src="${game.main_picture}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 4px;" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
-                       <div style="font-size: 28px; display: none;">◆</div>`;
+                    iconHtml = `<img src="${game.main_picture}" style="width: 48px; height: 48px; object-fit: cover; border-radius: var(--radius-sm);" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+                       <div style="font-size: 32px; display: none;">🎮</div>`;
                 } else {
-                    iconHtml = `<div style="font-size: 28px;">◆</div>`;
+                    iconHtml = `<div style="font-size: 32px;">🎮</div>`;
                 }
 
                 return `
-            <div class="card" style="padding: 16px; display: flex; flex-direction: column;">
-                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-                    ${iconHtml}
-                    <div style="flex: 1;">
-                        <div style="font-weight: 500; margin-bottom: 4px;">${popular ? '★ ' : ''}${game.title || 'No title'}</div>
-                        <div class="small">${game.group?.title || 'No group'}</div>
-                    </div>
-                </div>
+                    <div class="card" style="padding: var(--space-md); display: flex; flex-direction: column;">
+                        <div style="display: flex; align-items: center; gap: var(--space-md); margin-bottom: var(--space-md);">
+                            ${iconHtml}
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="font-weight: 600; margin-bottom: var(--space-xs); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${popular}${game.title || 'No title'}</div>
+                                <div class="small">${game.group?.title || 'No group'}</div>
+                            </div>
+                        </div>
 
-                <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: center;">
-                    <div class="small">
-                        ${ageRating ? `<span style="background: var(--warning); color: black; padding: 2px 6px; border-radius: 4px; font-size: 10px;">${ageRating}</span>` : ''}
-                        ${freeRun ? '<span style="color: var(--success);">Free</span>' : ''}
+                        <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: center; gap: var(--space-sm);">
+                            <div style="display:flex; gap:var(--space-xs); flex-wrap:wrap;">
+                                ${ageRating ? `<span style="background: var(--booked); color: var(--bg); padding: 2px 8px; border-radius: var(--radius-sm); font-size: 0.75rem; font-weight: 600;">${ageRating}</span>` : ''}
+                                ${freeRun ? '<span style="color: var(--free); font-size:0.875rem; font-weight:500;">Free</span>' : ''}
+                            </div>
+                            <div class="small" style="color: var(--muted);">${game.type || ''}</div>
+                        </div>
                     </div>
-                    <div class="small" style="color: var(--muted);">${game.type || ''}</div>
-                </div>
-            </div>
-        `;
+                `;
             }).join('');
         }
 
@@ -927,12 +1011,11 @@
             document.getElementById('gamesModal').style.display = 'none';
         }
 
-        // Event listeners
         document.getElementById('gamesBtn').addEventListener('click', openGamesModal);
         document.getElementById('gameGroupFilter').addEventListener('change', filterGames);
         document.getElementById('popularOnly').addEventListener('change', filterGames);
 
-        // --- Client-side JS (modern, responsive) ---
+        // Canvas & Map
         const canvas = document.getElementById('map');
         const ctx = canvas.getContext('2d');
         const state = {
@@ -957,55 +1040,97 @@
         }
 
         function colorFor(h) {
-            if (h.session) return getComputedStyle(document.documentElement).getPropertyValue('--busy') || '#3b82f6';
+            if (h.session) return getComputedStyle(document.documentElement).getPropertyValue('--busy').trim() || '#3b82f6';
             const hasBooking = state.bookings.some(b => b.hosts.some(bh => bh.id == h.id));
-            if (hasBooking) return getComputedStyle(document.documentElement).getPropertyValue('--booked') || '#f59e0b';
-            return getComputedStyle(document.documentElement).getPropertyValue('--free') || '#10b981';
+            if (hasBooking) return getComputedStyle(document.documentElement).getPropertyValue('--booked').trim() || '#f59e0b';
+            return getComputedStyle(document.documentElement).getPropertyValue('--free').trim() || '#10b981';
         }
 
         function getStatusEmoji(h) {
             if (h.session) return '●';
-            const hasBooking = state.bookings.some(b => b.hosts.some(bh => bh.id == h.id));
-            if (hasBooking) return '◆';
+            const now = new Date();
+            const hasActiveBooking = state.bookings.some(b => {
+                const bookingStart = new Date(b.from);
+                const bookingEnd = new Date(b.to);
+                return b.hosts.some(bh => bh.id == h.id) && bookingStart <= now && bookingEnd > now;
+            });
+            if (hasActiveBooking) return '◆';
+
+            const hasFutureBooking = state.bookings.some(b => {
+                const bookingStart = new Date(b.from);
+                return b.hosts.some(bh => bh.id == h.id) && bookingStart > now;
+            });
+            if (hasFutureBooking) return '◇';
             return '○';
         }
 
         async function loadBookings() {
             try {
                 const res = await fetch('/api/bookings', { cache: 'no-store' });
-                state.bookings = await res.json();
+                if (!res.ok) {
+                    console.error('Failed to fetch bookings:', res.status);
+                    return;
+                }
+                const bookings = await res.json();
+                if (!Array.isArray(bookings)) {
+                    console.error('Bookings response is not an array:', bookings);
+                    state.bookings = [];
+                    return;
+                }
+                state.bookings = bookings;
                 renderUpcomingBookings(state.bookings);
+                renderSummary(state.hosts);
                 draw();
-            } catch (err) { console.error('Failed to load bookings:', err) }
+            } catch (err) {
+                console.error('Error loading bookings:', err);
+                state.bookings = [];
+            }
         }
 
         function renderUpcomingBookings(bookings) {
             const el = document.getElementById('upcomingBookings');
-            if (!bookings || bookings.length === 0) {
-                el.innerHTML = '<div class="small" style="color:var(--muted);padding:8px">No upcoming bookings</div>';
+
+            const now = new Date();
+            const futureBookings = bookings.filter(b => {
+                const bookingStart = new Date(b.from);
+                return bookingStart > now;
+            });
+
+            if (!futureBookings || futureBookings.length === 0) {
+                el.innerHTML = '<div class="small" style="color:var(--muted);padding:var(--space-md);text-align:center;">No upcoming bookings</div>';
                 return;
             }
 
-            el.innerHTML = bookings.map(b => {
+            el.innerHTML = futureBookings.slice(0, 5).map(b => {
                 const fromDate = new Date(b.from);
                 const toDate = new Date(b.to);
-                const dateStr = fromDate.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
-                const fromTime = fromDate.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
-                const toTime = toDate.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+                const dateStr = fromDate.toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
+                const fromTime = fromDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                const toTime = toDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
                 const hostNames = b.hosts.map(h => h.alias || `PC ${h.id}`).join(', ');
                 const clientName = b.client?.nickname || b.client?.phone || 'Guest';
 
-                return `<div class="item">
-                    <div>
-                        <div style="font-weight:600">▸ ${hostNames}</div>
-                        <div class="small">${clientName}</div>
+                return `
+                    <div class="item" style="display:block; padding:var(--space-md);">
+                        <div style="display:flex; justify-content:space-between; margin-bottom:var(--space-sm);">
+                            <div style="font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
+                                <i class="fas fa-desktop" style="color:var(--accent-glow); font-size:0.875rem;"></i>
+                                ${hostNames}
+                            </div>
+                        </div>
+                        <div class="small" style="color:var(--muted); margin-bottom:var(--space-xs);">
+                            <i class="fas fa-user" style="font-size:0.75rem;"></i> ${clientName}
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <div class="small" style="color:var(--muted);">
+                                <i class="fas fa-calendar" style="font-size:0.75rem;"></i> ${dateStr}
+                            </div>
+                            <div style="font-size:0.875rem; color:var(--booked); font-weight:500;">
+                                ${fromTime} - ${toTime}
+                            </div>
+                        </div>
                     </div>
-                    <div style="text-align:right">
-                        <div class="small" style="color:var(--muted);margin-bottom:2px">${dateStr}</div>
-                        <div style="font-size:13px;color:var(--booked)">${fromTime} - ${toTime}</div>
-                        <div class="small">${b.status}</div>
-                    </div>
-                </div>`;
+                `;
             }).join('');
         }
 
@@ -1073,14 +1198,12 @@
                 const isHovered = state.hoveredHost && state.hoveredHost.id === h.id;
                 const isSelected = state.selectedHosts.has(h.id);
 
-                // Fill
                 ctx.fillStyle = colorFor(h);
                 if (isHovered) ctx.globalAlpha = 0.85;
                 roundRect(ctx, x, y, w, hgt, 8);
                 ctx.fill();
                 ctx.globalAlpha = 1;
 
-                // Рамка для выбранных ПК
                 if (isSelected) {
                     ctx.strokeStyle = '#00bcd4';
                     ctx.lineWidth = 3;
@@ -1088,30 +1211,27 @@
                     ctx.stroke();
                 }
 
-                // Emoji status
                 const emoji = getStatusEmoji(h);
                 ctx.font = '16px Arial';
                 ctx.fillStyle = '#ffffff';
                 const emojiWidth = ctx.measureText(emoji).width;
                 ctx.fillText(emoji, cx - emojiWidth / 2, cy - 8);
 
-                // Label
                 ctx.font = '11px Inter, system-ui';
                 ctx.fillStyle = '#061226';
                 const label = h.alias ?? '—';
                 clipText(ctx, label, x + 8, cy + 8, w - 16);
 
-                // Session info
                 if (h.session) {
                     ctx.fillStyle = 'rgba(184,195,211,0.9)';
                     let timeText = '';
                     if (h.session.time_left && h.session.time_left > 0) {
                         const endTime = new Date(Date.now() + h.session.time_left * 1000);
-                        timeText = 'до ' + endTime.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+                        timeText = 'до ' + endTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
                     } else if (h.session.started_at && h.session.duration) {
                         const start = new Date(h.session.started_at);
                         const end = new Date(start.getTime() + h.session.duration * 1000);
-                        timeText = 'до ' + end.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+                        timeText = 'до ' + end.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
                     }
                     if (timeText) clipText(ctx, timeText, x + 8, cy + 18, w - 16);
                 }
@@ -1170,44 +1290,76 @@
             if (host.session) {
                 icon.textContent = '●';
                 icon.className = 'pc-status-icon busy';
-                status.innerHTML = `<div style="color:var(--busy); font-weight:600;">● In Use</div>
-                    <div class="small">User: ${host.session.user || 'Unknown'}</div>`;
+                let sessionInfo = host.session.user || 'Unknown';
+                let timeInfo = '';
+                if (host.session.time_left && host.session.time_left > 0) {
+                    const hours = Math.floor(host.session.time_left / 3600);
+                    const minutes = Math.floor((host.session.time_left % 3600) / 60);
+                    timeInfo = hours > 0 ? `${hours}h ${minutes}m left` : `${minutes}m left`;
+                }
+                status.innerHTML = `<div style="color:var(--busy); font-weight:600; margin-bottom:var(--space-xs);">● In Use</div>
+                    <div class="small">User: ${sessionInfo}</div>
+                    ${timeInfo ? `<div class="small" style="color:var(--muted);">⏱ ${timeInfo}</div>` : ''}`;
                 bookBtn.disabled = true;
-                bookBtn.textContent = 'In Use';
+                bookBtn.style.opacity = '0.5';
+                bookBtn.style.cursor = 'not-allowed';
+                bookBtn.innerHTML = '<i class="fas fa-ban"></i> In Use';
             } else {
-                const hasBooking = state.bookings.some(b => b.hosts.some(bh => bh.id == host.id));
-                if (hasBooking) {
+                const now = new Date();
+                const activeBooking = state.bookings.find(b => {
+                    const bookingStart = new Date(b.from);
+                    const bookingEnd = new Date(b.to);
+                    return b.hosts.some(bh => bh.id == host.id) && bookingStart <= now && bookingEnd > now;
+                });
+                const futureBooking = state.bookings.find(b => {
+                    const bookingStart = new Date(b.from);
+                    return b.hosts.some(bh => bh.id == host.id) && bookingStart > now;
+                });
+
+                if (activeBooking) {
                     icon.textContent = '◆';
                     icon.className = 'pc-status-icon booked';
-                    status.innerHTML = `<div style="color:var(--booked); font-weight:600;">◆ Booked</div>`;
+                    const toTime = new Date(activeBooking.to).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                    status.innerHTML = `<div style="color:var(--booked); font-weight:600;">◆ Currently Booked</div>
+                        <div class="small" style="color:var(--muted);">Until ${toTime}</div>`;
+                } else if (futureBooking) {
+                    icon.textContent = '◇';
+                    icon.className = 'pc-status-icon booked';
+                    const fromTime = new Date(futureBooking.from).toLocaleString('en-US', {
+                        month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                    });
+                    status.innerHTML = `<div style="color:var(--booked); font-weight:600;">◇ Future Booking</div>
+                        <div class="small" style="color:var(--muted);">From ${fromTime}</div>`;
                 } else {
                     icon.textContent = '○';
                     icon.className = 'pc-status-icon free';
                     status.innerHTML = `<div style="color:var(--free); font-weight:600;">○ Available</div>`;
                 }
                 bookBtn.disabled = false;
-                bookBtn.textContent = '→ Book';
+                bookBtn.style.opacity = '1';
+                bookBtn.style.cursor = 'pointer';
+                bookBtn.innerHTML = '<i class="fas fa-calendar-plus"></i> Book';
             }
 
-            const hostBookings = state.bookings.filter(b =>
-                b.hosts.some(bh => bh.id == host.id)
-            );
+            const hostBookings = state.bookings.filter(b => b.hosts.some(bh => bh.id == host.id));
 
             if (hostBookings.length > 0) {
                 bookingsDiv.style.display = 'block';
                 bookingsList.innerHTML = hostBookings.map(b => {
-                    const fromTime = new Date(b.from).toLocaleString('ru-RU', {
+                    const fromTime = new Date(b.from).toLocaleString('en-US', {
                         month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
                     });
-                    const toTime = new Date(b.to).toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+                    const toTime = new Date(b.to).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
                     const client = b.client?.nickname || b.client?.phone || 'Guest';
                     return `
-                        <div class="booking-item">
-                            <div>
-                                <div class="booking-time">${fromTime} - ${toTime}</div>
-                                <div class="booking-client">${client}</div>
+                        <div class="item" style="display:block; padding:var(--space-md);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:var(--space-xs);">
+                                <div style="font-weight:600; color:var(--booked);">${fromTime} - ${toTime}</div>
+                                <div class="small" style="color:var(--booked);">${b.status}</div>
                             </div>
-                            <div class="small" style="color:var(--booked)">${b.status}</div>
+                            <div class="small" style="color:var(--muted);">
+                                <i class="fas fa-user" style="font-size:0.75rem;"></i> ${client}
+                            </div>
                         </div>`;
                 }).join('');
             } else {
@@ -1215,6 +1367,7 @@
             }
             modal.style.display = 'flex';
         }
+
         function closePcInfoModal() {
             document.getElementById('pcInfoModal').style.display = 'none';
             state.selectedHost = null;
@@ -1234,19 +1387,36 @@
                 let tooltipText = `${getStatusEmoji(host)} ${host.alias ?? 'Seat ' + host.id}`;
                 if (host.group?.title) tooltipText += ` • ${host.group.title}`;
 
-                const booking = state.bookings.find(b => b.hosts.some(bh => bh.id == host.id));
-                if (booking) {
-                    const fromDate = new Date(booking.from);
+                const now = new Date();
+                const activeBooking = state.bookings.find(b => {
+                    const bookingStart = new Date(b.from);
+                    const bookingEnd = new Date(b.to);
+                    return b.hosts.some(bh => bh.id == host.id) && bookingStart <= now && bookingEnd > now;
+                });
+                if (activeBooking) {
+                    const fromDate = new Date(activeBooking.from);
+                    const toDate = new Date(activeBooking.to);
                     const dateStr = fromDate.toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
                     const fromTime = fromDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-                    tooltipText += `<br>◆ Booking: ${dateStr}, ${fromTime}`;
-                    if (booking.client?.nickname) tooltipText += ` (${booking.client.nickname})`;
+                    const toTime = toDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                    tooltipText += `<br>◆ Booked: ${dateStr}, ${fromTime} - ${toTime}`;
+                    if (activeBooking.client?.nickname) tooltipText += ` (${activeBooking.client.nickname})`;
+                } else {
+                    const futureBooking = state.bookings.find(b => {
+                        const bookingStart = new Date(b.from);
+                        return b.hosts.some(bh => bh.id == host.id) && bookingStart > now;
+                    });
+                    if (futureBooking) {
+                        const fromDate = new Date(futureBooking.from);
+                        const dateStr = fromDate.toLocaleDateString('en-US', { day: 'numeric', month: 'short' });
+                        const fromTime = fromDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                        tooltipText += `<br>◇ Future: ${dateStr}, ${fromTime}`;
+                        if (futureBooking.client?.nickname) tooltipText += ` (${futureBooking.client.nickname})`;
+                    }
                 }
 
                 if (host.session) {
-                    tooltipText += host.session.user
-                        ? `<br>● Playing: ${host.session.user}`
-                        : `<br>● In Use`;
+                    tooltipText += host.session.user ? `<br>● Playing: ${host.session.user}` : `<br>● In Use`;
 
                     let timeLeft = null;
                     if (host.session.time_left && host.session.time_left > 0) {
@@ -1260,16 +1430,13 @@
                     if (timeLeft && timeLeft > 0) {
                         const hours = Math.floor(timeLeft / 3600);
                         const minutes = Math.floor((timeLeft % 3600) / 60);
-                        tooltipText += hours > 0
-                            ? `<br>▸ Remaining: ${hours}h ${minutes}m`
-                            : `<br>▸ Remaining: ${minutes}m`;
+                        tooltipText += hours > 0 ? `<br>⏱ Remaining: ${hours}h ${minutes}m` : `<br>⏱ Remaining: ${minutes}m`;
                     }
                 }
 
                 tooltip.innerHTML = tooltipText;
                 tooltip.style.display = 'block';
 
-                // ✅ СОХРАНЯЕМ координаты ДО requestAnimationFrame
                 const mouseX = e.clientX;
                 const mouseY = e.clientY;
 
@@ -1308,21 +1475,19 @@
             const host = getHostAtPosition(x, y);
             if (host) {
                 if (e.ctrlKey || e.metaKey) {
-                    // Ctrl/Cmd + клик = добавить/убрать из выбора
-                    if (state.selectedHosts.has(host.id)) {
-                        state.selectedHosts.delete(host.id);
-                    } else {
-                        state.selectedHosts.add(host.id);
+                    if (!host.session) {
+                        if (state.selectedHosts.has(host.id)) {
+                            state.selectedHosts.delete(host.id);
+                        } else {
+                            state.selectedHosts.add(host.id);
+                        }
+                        updateSelectedCount();
+                        draw();
                     }
-                    updateSelectedCount();
-                    draw();
                 } else {
-                    // Обычный клик = открыть модалку
                     openPcInfoModal(host);
                 }
             }
-
-
         });
 
         function updateSelectedCount() {
@@ -1331,7 +1496,7 @@
             const countEl = document.getElementById('selectedCount');
 
             if (count > 0) {
-                btn.style.display = 'block';
+                btn.style.display = 'inline-flex';
                 countEl.textContent = count;
             } else {
                 btn.style.display = 'none';
@@ -1355,7 +1520,7 @@
             if (state.selectedHosts.size === 0) return;
 
             if (!isLoggedIn()) {
-                alert('Для бронирования необходимо войти');
+                alert('You need to login to book');
                 document.getElementById('loginScreen').style.display = 'flex';
                 return;
             }
@@ -1364,16 +1529,24 @@
         });
 
         function openBookingModalMultiple(hostIds) {
-            const hostNames = hostIds.map(id => {
+            const validHosts = hostIds.filter(id => {
                 const host = state.hosts.find(h => h.id === id);
-                return host?.alias || `ПК ${id}`;
+                return host && !host.session;
+            });
+
+            if (validHosts.length === 0) {
+                alert('All selected PCs are busy');
+                return;
+            }
+
+            const hostNames = validHosts.map(id => {
+                const host = state.hosts.find(h => h.id === id);
+                return host?.alias || `PC ${id}`;
             }).join(', ');
 
-            document.getElementById('bookingTitle').textContent = `📅 Забронировать места (${hostIds.length})`;
+            document.getElementById('bookingTitle').innerHTML = '<i class="fas fa-calendar-check"></i> Book Seats (' + validHosts.length + ')';
             document.getElementById('selectedHostInfo').textContent = hostNames;
-
-            // Сохраняем массив для отправки
-            state.bookingHostIds = hostIds;
+            state.bookingHostIds = validHosts;
 
             const now = new Date();
             const rigaTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Riga' }));
@@ -1395,53 +1568,82 @@
         async function loadHosts() {
             try {
                 const res = await fetch('/api/hosts', { cache: 'no-store' });
+                if (!res.ok) {
+                    console.error('Failed to fetch hosts:', res.status);
+                    return;
+                }
                 const hosts = await res.json();
+                if (!Array.isArray(hosts)) {
+                    console.error('Hosts response is not an array:', hosts);
+                    return;
+                }
                 state.hosts = hosts;
                 renderSummary(hosts);
                 ensureGroups(hosts);
                 draw();
-            } catch (err) { console.error(err) }
+            } catch (err) {
+                console.error('Error loading hosts:', err);
+            }
         }
 
         function renderSummary(hosts) {
             const busy = hosts.filter(h => h.session !== null).length;
-            const booked = state.bookings ? state.bookings.length : 0;
-            const free = hosts.length - busy;
-            const total = hosts.length;
-            const freePercent = Math.round((free / total) * 100);
-            const busyPercent = Math.round((busy / total) * 100);
 
-            document.getElementById('summary').innerHTML =
-                `<div style="display:flex;gap:10px;align-items:center;padding:10px 0;">
+            const bookedHostIds = new Set();
+            if (state.bookings) {
+                state.bookings.forEach(booking => {
+                    if (Array.isArray(booking.hosts)) {
+                        booking.hosts.forEach(host => {
+                            const hostInHosts = hosts.find(h => h.id == host.id);
+                            if (hostInHosts && !hostInHosts.session) {
+                                bookedHostIds.add(host.id);
+                            }
+                        });
+                    }
+                });
+            }
+            const booked = bookedHostIds.size;
+
+            const free = Math.max(0, hosts.length - busy - booked);
+            const total = hosts.length;
+            const freePercent = total > 0 ? Math.round((free / total) * 100) : 0;
+            const busyPercent = total > 0 ? Math.round((busy / total) * 100) : 0;
+            const bookedPercent = total > 0 ? Math.round((booked / total) * 100) : 0;
+
+            document.getElementById('summary').innerHTML = `
+                <div style="display:flex;gap:var(--space-md);align-items:center;padding:var(--space-md) 0;">
                     <i class="fas fa-circle" style="color:var(--free);font-size:10px;"></i>
                     <div style="flex:1;">
-                        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                            <span style="font-size:12px;">Available</span>
-                            <strong style="color:var(--free);">${free}</strong>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:var(--space-xs);">
+                            <span style="font-size:0.875rem; font-weight:500;">Available</span>
+                            <strong style="color:var(--free); font-weight:700;">${free}</strong>
                         </div>
-                        <div style="background:rgba(16,185,129,0.1);height:6px;border-radius:3px;overflow:hidden;">
-                            <div style="background:var(--free);height:100%;width:${freePercent}%;transition:width 0.5s ease;"></div>
+                        <div style="background:rgba(16,185,129,0.1);height:8px;border-radius:var(--radius-sm);overflow:hidden;">
+                            <div style="background:var(--free);height:100%;width:${freePercent}%;transition:width 0.5s cubic-bezier(0.4, 0, 0.2, 1);box-shadow:0 0 8px var(--free-glow);"></div>
                         </div>
                     </div>
                 </div>
-                <div style="display:flex;gap:10px;align-items:center;padding:10px 0;">
+                <div style="display:flex;gap:var(--space-md);align-items:center;padding:var(--space-md) 0;">
                     <i class="fas fa-circle" style="color:var(--busy);font-size:10px;"></i>
                     <div style="flex:1;">
-                        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                            <span style="font-size:12px;">In Use</span>
-                            <strong style="color:var(--busy);">${busy}</strong>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:var(--space-xs);">
+                            <span style="font-size:0.875rem; font-weight:500;">In Use</span>
+                            <strong style="color:var(--busy); font-weight:700;">${busy}</strong>
                         </div>
-                        <div style="background:rgba(59,130,246,0.1);height:6px;border-radius:3px;overflow:hidden;">
-                            <div style="background:var(--busy);height:100%;width:${busyPercent}%;transition:width 0.5s ease;"></div>
+                        <div style="background:rgba(59,130,246,0.1);height:8px;border-radius:var(--radius-sm);overflow:hidden;">
+                            <div style="background:var(--busy);height:100%;width:${busyPercent}%;transition:width 0.5s cubic-bezier(0.4, 0, 0.2, 1);box-shadow:0 0 8px var(--busy-glow);"></div>
                         </div>
                     </div>
                 </div>
-                <div style="display:flex;gap:10px;align-items:center;padding:10px 0;">
+                <div style="display:flex;gap:var(--space-md);align-items:center;padding:var(--space-md) 0;">
                     <i class="fas fa-circle" style="color:var(--booked);font-size:10px;"></i>
                     <div style="flex:1;">
-                        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
-                            <span style="font-size:12px;">Booked (24h)</span>
-                            <strong style="color:var(--booked);">${booked}</strong>
+                        <div style="display:flex;justify-content:space-between;margin-bottom:var(--space-xs);">
+                            <span style="font-size:0.875rem; font-weight:500;">Booked (24h)</span>
+                            <strong style="color:var(--booked); font-weight:700;">${booked}</strong>
+                        </div>
+                        <div style="background:rgba(245,158,11,0.1);height:8px;border-radius:var(--radius-sm);overflow:hidden;">
+                            <div style="background:var(--booked);height:100%;width:${bookedPercent}%;transition:width 0.5s cubic-bezier(0.4, 0, 0.2, 1);box-shadow:0 0 8px var(--booked-glow);"></div>
                         </div>
                     </div>
                 </div>`;
@@ -1451,11 +1653,10 @@
             const container = document.getElementById('myBookings');
 
             if (!isLoggedIn()) {
-                container.innerHTML = '<div class="small" style="color:var(--muted);padding:8px;display:flex;align-items:center;gap:8px;"><i class="fas fa-lock"></i> Login to view bookings</div>';
+                container.innerHTML = '<div class="small" style="color:var(--muted);padding:var(--space-md);text-align:center;"><i class="fas fa-lock" style="margin-right:var(--space-xs);"></i>Login to view bookings</div>';
                 return;
             }
 
-            // Show loading
             container.innerHTML = `
                 <div class="item">
                     <div style="flex:1;">
@@ -1469,13 +1670,16 @@
                 const user = JSON.parse(localStorage.getItem('user'));
                 const allBookings = await fetch('/api/bookings', { cache: 'no-store' }).then(r => r.json());
 
-                const myBookings = allBookings.filter(b =>
-                    b.client?.id === user.id &&
-                    (b.status === 'PENDING' || b.status === 'ACTIVE')
-                );
+                const now = new Date();
+                const myBookings = allBookings.filter(b => {
+                    const bookingEnd = new Date(b.to);
+                    return b.client?.id === user.id &&
+                           (b.status === 'PENDING' || b.status === 'ACTIVE') &&
+                           bookingEnd > now;
+                });
 
                 if (myBookings.length === 0) {
-                    container.innerHTML = '<div class="small" style="color:var(--muted);padding:8px;display:flex;align-items:center;gap:8px;"><i class="fas fa-inbox"></i> No active bookings</div>';
+                    container.innerHTML = '<div class="small" style="color:var(--muted);padding:var(--space-md);text-align:center;"><i class="fas fa-inbox" style="margin-right:var(--space-xs);"></i>No active bookings</div>';
                     return;
                 }
 
@@ -1488,28 +1692,31 @@
                     const hostNames = b.hosts.map(h => h.alias || `PC ${h.id}`).join(', ');
 
                     return `
-                <div class="item" style="display:block; padding:12px;">
-                    <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-                        <div style="font-weight:600; display:flex; align-items:center; gap:6px;">
-                            <i class="fas fa-desktop" style="color:var(--accent);font-size:12px;"></i> ${hostNames}
+                        <div class="item" style="display:block; padding:var(--space-md);">
+                            <div style="display:flex; justify-content:space-between; margin-bottom:var(--space-sm);">
+                                <div style="font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
+                                    <i class="fas fa-desktop" style="color:var(--accent-glow);font-size:0.875rem;"></i>
+                                    ${hostNames}
+                                </div>
+                                <button onclick="cancelBooking(${b.id})"
+                                    style="background:none; border:1px solid rgba(248,113,113,0.5); color:#f87171; padding:4px 12px; border-radius:var(--radius-sm); cursor:pointer; font-size:0.75rem; font-weight:500; transition:all 0.2s;"
+                                    onmouseover="this.style.background='rgba(248,113,113,0.1)'"
+                                    onmouseout="this.style.background='none'">
+                                    <i class="fas fa-times"></i> Cancel
+                                </button>
+                            </div>
+                            <div class="small" style="color:var(--muted); margin-bottom:var(--space-xs);">
+                                <i class="fas fa-calendar" style="font-size:0.75rem;"></i> ${dateStr} • ${fromTime} - ${toTime}
+                            </div>
+                            <div class="small" style="color:var(--booked); font-weight:500;">
+                                <i class="fas fa-info-circle" style="font-size:0.75rem;"></i> ${b.status}
+                            </div>
                         </div>
-                        <button onclick="cancelBooking(${b.id})"
-                                style="background:none; border:1px solid rgba(248,113,113,0.5); color:#f87171; padding:4px 10px; border-radius:6px; cursor:pointer; font-size:11px; transition:all 0.2s;">
-                            <i class="fas fa-times"></i> Cancel
-                        </button>
-                    </div>
-                    <div class="small" style="color:var(--muted); display:flex; align-items:center; gap:6px;">
-                        <i class="fas fa-clock" style="font-size:10px;"></i> ${dateStr} • ${fromTime} - ${toTime}
-                    </div>
-                    <div class="small" style="color:var(--booked); margin-top:4px; display:flex; align-items:center; gap:6px;">
-                        <i class="fas fa-info-circle" style="font-size:10px;"></i> ${b.status}
-                    </div>
-                </div>
-            `;
+                    `;
                 }).join('');
             } catch (err) {
                 console.error('Failed to load my bookings:', err);
-                container.innerHTML = '<div class="small" style="color:var(--muted);padding:8px">Loading error</div>';
+                container.innerHTML = '<div class="small" style="color:var(--muted);padding:var(--space-md);text-align:center;">Loading error</div>';
             }
         }
 
@@ -1522,18 +1729,18 @@
                     headers: {
                         'Authorization': 'Bearer ' + localStorage.getItem('sessionId'),
                         'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ bookingId })
+                    }
                 });
 
-                const json = await res.json();
+                if (!res.ok) {
+                    const json = await res.json();
+                    throw new Error(json.error || 'Cancel error');
+                }
 
-                if (!res.ok) throw new Error(json.error || 'Cancel error');
-
-                alert('→ Booking cancelled');
-                loadBookings();
-                loadMyBookings();
-                loadHosts();
+                alert('✓ Booking cancelled');
+                await loadBookings();
+                await loadMyBookings();
+                await loadHosts();
             } catch (err) {
                 alert('× ' + err.message);
             }
@@ -1543,11 +1750,10 @@
             const container = document.getElementById('achievements');
 
             if (!isLoggedIn()) {
-                container.innerHTML = '<div class="small" style="color:var(--muted);padding:8px;display:flex;align-items:center;gap:8px;"><i class="fas fa-lock"></i> Login to view achievements</div>';
+                container.innerHTML = '<div class="small" style="color:var(--muted);padding:var(--space-md);text-align:center;"><i class="fas fa-lock" style="margin-right:var(--space-xs);"></i>Login to view achievements</div>';
                 return;
             }
 
-            // Show loading skeleton
             container.innerHTML = `
                 <div class="item">
                     <div style="flex:1;">
@@ -1573,7 +1779,7 @@
                 const achievements = await res.json();
 
                 if (!achievements || achievements.length === 0) {
-                    container.innerHTML = '<div class="small" style="color:var(--muted);padding:8px">No achievements</div>';
+                    container.innerHTML = '<div class="small" style="color:var(--muted);padding:var(--space-md);text-align:center;">No achievements yet</div>';
                     return;
                 }
 
@@ -1583,26 +1789,24 @@
 
                     if (!condition) return '';
 
-                    // Define achievement type and format progress
                     let currentValue = 0;
                     let targetValue = condition.value;
                     let unit = '';
-                    let icon = '◆';
+                    let icon = '🏆';
 
                     if (condition.name === 'spent_hours') {
-                        // Convert seconds to hours
                         currentValue = Math.floor((ach.progress / 100) * (targetValue / 3600));
                         targetValue = Math.floor(targetValue / 3600);
                         unit = ' h';
-                        icon = '▸';
+                        icon = '⏱️';
                     } else if (condition.name === 'add_deposit_overall') {
                         currentValue = Math.floor((ach.progress / 100) * targetValue);
                         unit = '€';
-                        icon = '●';
+                        icon = '💰';
                     } else if (condition.name === 'register') {
                         currentValue = ach.progress;
                         targetValue = 1;
-                        icon = '○';
+                        icon = '✓';
                     } else {
                         currentValue = Math.floor((ach.progress / 100) * targetValue);
                     }
@@ -1610,34 +1814,31 @@
                     const percentage = Math.min(100, Math.floor(ach.progress));
                     const isCompleted = ach.has || percentage >= 100;
 
-                    // Format reward
                     let rewardText = '';
-                    if (reward) {
-                        if (reward.name === 'add_deposit') {
-                            rewardText = `<div class="small" style="color: var(--accent); margin-top: 4px;">→ Reward: ${reward.value}€</div>`;
-                        }
+                    if (reward && reward.name === 'add_deposit') {
+                        rewardText = `<div class="small" style="color: var(--accent-glow); margin-top: var(--space-xs); font-weight:500;">🎁 Reward: ${reward.value}€</div>`;
                     }
 
                     return `
-                <div class="item" style="display: block; padding: 12px; ${isCompleted ? 'background: rgba(76, 175, 80, 0.1);' : ''}">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-                        <div style="display: flex; align-items: center; gap: 8px;">
-                            ${ach.icon_url ? `<img src="${ach.icon_url}" style="width: 24px; height: 24px; object-fit: contain;" />` : icon}
-                            <div style="font-weight: 500;">${isCompleted ? '✓' : ''} ${ach.name || 'Achievement'}</div>
+                        <div class="item" style="display: block; padding: var(--space-md); ${isCompleted ? 'background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.2);' : ''}">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-sm);">
+                                <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                                    ${ach.icon_url ? `<img src="${ach.icon_url}" style="width: 24px; height: 24px; object-fit: contain;" />` : `<span style="font-size:1.25rem;">${icon}</span>`}
+                                    <div style="font-weight: 600; font-size:0.9375rem;">${isCompleted ? '✓ ' : ''}${ach.name || 'Achievement'}</div>
+                                </div>
+                                <div class="small" style="font-weight: 700;">${currentValue}${unit} / ${targetValue}${unit}</div>
+                            </div>
+                            <div style="background: var(--glass); height: 8px; border-radius: var(--radius-sm); overflow: hidden; margin-bottom: var(--space-xs);">
+                                <div style="background: ${isCompleted ? 'var(--free)' : 'var(--accent-glow)'}; height: 100%; width: ${percentage}%; transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 0 8px ${isCompleted ? 'var(--free-glow)' : 'rgba(102, 126, 234, 0.3)'};"></div>
+                            </div>
+                            ${rewardText}
                         </div>
-                        <div class="small" style="font-weight: 600;">${currentValue}${unit} / ${targetValue}${unit}</div>
-                    </div>
-                    <div style="background: rgba(255,255,255,0.05); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 4px;">
-                        <div style="background: ${isCompleted ? '#4CAF50' : 'var(--accent)'}; height: 100%; width: ${percentage}%; transition: width 0.3s ease;"></div>
-                    </div>
-                    ${rewardText}
-                </div>
-            `;
+                    `;
                 }).filter(Boolean).join('');
 
             } catch (err) {
                 console.error('Failed to load achievements:', err);
-                container.innerHTML = '<div class="small" style="color:var(--muted);padding:8px">Loading error</div>';
+                container.innerHTML = '<div class="small" style="color:var(--muted);padding:var(--space-md);text-align:center;">Loading error</div>';
             }
         }
 
@@ -1674,7 +1875,7 @@
 
         function openBookingModal(host) {
             state.selectedHost = host;
-            document.getElementById('bookingTitle').textContent = `▸ ${host.alias || ('Seat ' + host.id)}`;
+            document.getElementById('bookingTitle').innerHTML = '<i class="fas fa-calendar-check"></i> ' + (host.alias || ('Seat ' + host.id));
             document.getElementById('selectedHostInfo').textContent = host.group && host.group.title ? host.group.title : '';
             const now = new Date();
             const rigaTime = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/Riga' }));
@@ -1686,14 +1887,17 @@
             const minutes = String(rigaTime.getMinutes()).padStart(2, '0');
             const min = `${year}-${month}-${day}T${hours}:${minutes}`;
             const dt = document.getElementById('datetime');
-            dt.min = min; dt.value = min;
+            dt.min = min; 
+            dt.value = min;
             document.getElementById('bookingModal').style.display = 'flex';
         }
+
         function closeBookingModal() {
             document.getElementById('bookingModal').style.display = 'none';
             document.getElementById('formMessage').innerHTML = '';
             state.selectedHost = null;
         }
+
         document.getElementById('cancelBooking').addEventListener('click', closeBookingModal);
 
         function isLoggedIn() {
@@ -1712,14 +1916,18 @@
             const datetime = document.getElementById('datetime').value;
             const durationHours = Number(document.getElementById('duration').value);
             const comment = document.getElementById('comment').value.trim();
-            const msg = document.getElementById('formMessage'); msg.innerHTML = '';
+            const msg = document.getElementById('formMessage'); 
+            msg.innerHTML = '';
+            
             if (!datetime) {
                 msg.innerHTML = '<div style="color:#f87171">× Select time</div>';
                 return;
             }
+            
             const fromIso = new Date(datetime).toISOString();
             const sessionId = localStorage.getItem('sessionId');
             const user = JSON.parse(localStorage.getItem('user'));
+            
             try {
                 const res = await fetch('/api/bookings', {
                     method: 'POST',
@@ -1735,7 +1943,9 @@
                         comment
                     })
                 });
+                
                 const json = await res.json();
+                
                 if (!res.ok) {
                     if (res.status === 401) {
                         alert('Session expired. Please login again.');
@@ -1747,61 +1957,31 @@
                     }
                     throw new Error(json.error || 'Error');
                 }
-                msg.innerHTML = '<div style="color:#34d399">→ Booking created. ID: ' + json.id + '</div>';
-                setTimeout(() => {
+                
+                msg.innerHTML = '<div style="color:var(--free)">✓ Booking created. ID: ' + json.id + '</div>';
+
+                setTimeout(async () => {
                     closeBookingModal();
-                    loadHosts();
-                    loadBookings();
-                }, 1200);
+                    state.selectedHosts.clear();
+                    updateSelectedCount();
+                    draw();
+                    await loadHosts();
+                    await loadBookings();
+                    await loadMyBookings();
+                }, 1500);
             } catch (err) {
                 msg.innerHTML = '<div style="color:#f87171">× ' + err.message + '</div>';
             }
         });
 
-        // Logout function
         function logout() {
             localStorage.clear();
             document.getElementById('userInfo').innerHTML = '';
-            document.getElementById('authBtn').innerHTML = '<i class="fas fa-user-circle"></i> Login';
-            document.getElementById('achievements').innerHTML = '<div class="small" style="color:var(--muted);padding:8px;display:flex;align-items:center;gap:8px;"><i class="fas fa-lock"></i> Login to view achievements</div>';
-            document.getElementById('myBookings').innerHTML = '<div class="small" style="color:var(--muted);padding:8px;display:flex;align-items:center;gap:8px;"><i class="fas fa-lock"></i> Login to view bookings</div>';
+            document.getElementById('authBtn').innerHTML = '<i class="fas fa-user-circle"></i> <span class="hide-mobile">Login</span>';
+            loadAchievements();
+            loadMyBookings();
         }
-        // async function loadPayments() {
-        //     const container = document.getElementById('payments');
 
-        //     if (!isLoggedIn()) {
-        //         container.innerHTML = '<div class="small" style="color:var(--muted);padding:8px">Войдите чтобы увидеть статистику</div>';
-        //         return;
-        //     }
-
-        //     try {
-        //         const res = await fetch('/api/payments', {
-        //             cache: 'no-store',
-        //             headers: {
-        //                 'Authorization': 'Bearer ' + localStorage.getItem('sessionId')
-        //             }
-        //         });
-        //         const data = await res.json();
-
-        //         container.innerHTML = `
-        //     <div class="item" style="display: flex; justify-content: space-between; align-items: center;">
-        //         <div>
-        //             <div style="font-weight: 500; margin-bottom: 4px;">Всего пополнений</div>
-        //             <div class="small" style="color: var(--muted);">${data.count} транзакций</div>
-        //         </div>
-        //         <div style="text-align: right;">
-        //             <div style="font-size: 20px; font-weight: 600; color: var(--accent);">${data.total}€</div>
-        //             ${data.totalBonus > 0 ? `<div class="small" style="color: var(--free);">+${data.totalBonus}€ бонусов</div>` : ''}
-        //         </div>
-        //     </div>
-        // `;
-
-        //     } catch (err) {
-        //         console.error('Failed to load payments:', err);
-        //         container.innerHTML = '<div class="small" style="color:var(--muted);padding:8px">Ошибка загрузки</div>';
-        //     }
-        // }
-        // Обработчик кнопки авторизации
         document.getElementById('authBtn').addEventListener('click', () => {
             if (isLoggedIn()) {
                 logout();
@@ -1825,50 +2005,60 @@
             const content = document.getElementById('leaderboardContent');
             const monthEl = document.getElementById('leaderboardMonth');
 
-            modal.style.display = 'block';
-            content.innerHTML = '<div style="text-align:center; padding:40px; color:var(--muted);">Loading...</div>';
+            modal.style.display = 'flex';
+            content.innerHTML = '<div style="text-align:center; padding:var(--space-xl); color:var(--muted);"><div class="spinner" style="margin:0 auto var(--space-md);"></div>Loading...</div>';
 
             try {
                 const res = await fetch('/api/leaderboard', { cache: 'no-store' });
+
+                if (!res.ok) {
+                    throw new Error('Failed to load leaderboard');
+                }
+
                 const data = await res.json();
 
-                monthEl.textContent = `${MONTH_NAMES[data.month - 1]} ${data.year}`;
+                if (data.month && data.year) {
+                    monthEl.textContent = `${MONTH_NAMES[data.month - 1] || 'Unknown'} ${data.year}`;
+                } else {
+                    const now = new Date();
+                    monthEl.textContent = `${MONTH_NAMES[now.getMonth()]} ${now.getFullYear()}`;
+                }
 
                 if (!data.leaders || data.leaders.length === 0) {
-                    content.innerHTML = '<div style="text-align:center; padding:40px; color:var(--muted);">No data yet</div>';
+                    content.innerHTML = '<div style="text-align:center; padding:var(--space-xl); color:var(--muted);">No data yet</div>';
                     return;
                 }
 
                 content.innerHTML = data.leaders.map((leader, index) => {
                     const position = index + 1;
                     const isTop3 = position <= 3;
-                    const medal = position === 1 ? '●' : position === 2 ? '◆' : position === 3 ? '○' : '';
+                    const medal = position === 1 ? '🥇' : position === 2 ? '🥈' : position === 3 ? '🥉' : '';
                     const hours = (leader.totalTime / 3600).toFixed(1);
 
                     return `
-                <div class="item" style="display: flex; align-items: center; gap: 16px; padding: 12px; ${isTop3 ? 'background: rgba(255, 215, 0, 0.1); border: 1px solid rgba(255, 215, 0, 0.3);' : ''}">
-                    <div style="font-size: 24px; font-weight: 600; min-width: 40px; text-align: center;">
-                        ${medal ? `<span style="color: var(--accent);">${medal}</span>` : position}
-                    </div>
-                    ${leader.avatarUrl ?
-                            `<img src="${leader.avatarUrl}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover;" />` :
-                            `<div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 600;">${(leader.nickname || leader.name)?.charAt(0) || '?'}</div>`
+                        <div class="item" style="display: flex; align-items: center; gap: var(--space-md); padding: var(--space-md); ${isTop3 ? 'background: var(--accent-soft); border-color: rgba(102, 126, 234, 0.3);' : ''}">
+                            <div style="font-size: 1.5rem; font-weight: 700; min-width: 48px; text-align: center;">
+                                ${medal ? medal : position}
+                            </div>
+                            ${leader.avatarUrl ?
+                            `<img src="${leader.avatarUrl}" style="width: 48px; height: 48px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border);" />` :
+                            `<div style="width: 48px; height: 48px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 700; border: 2px solid var(--border);">${(leader.nickname || leader.name)?.charAt(0) || '?'}</div>`
                         }
-                    <div style="flex: 1;">
-                        <div style="font-weight: 500;">${leader.nickname || leader.name || 'Player'}</div>
-                        <div class="small" style="color: var(--muted);">ID: ${leader.userId}</div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 18px; font-weight: 600; color: var(--accent);">${hours}h</div>
-                        <div class="small" style="color: var(--muted);">total</div>
-                    </div>
-                </div>
-            `;
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${leader.nickname || leader.name || 'Player'}</div>
+                                <div class="small" style="color: var(--muted);">ID: ${leader.userId}</div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 1.125rem; font-weight: 700; background: var(--accent); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">${hours}h</div>
+                                <div class="small" style="color: var(--muted);">total</div>
+                            </div>
+                        </div>
+                    `;
                 }).join('');
 
             } catch (err) {
                 console.error('Failed to load leaderboard:', err);
-                content.innerHTML = '<div style="text-align:center; padding:40px; color:var(--error);">Loading error</div>';
+                content.innerHTML = '<div style="text-align:center; padding:var(--space-xl); color:#f87171;">Loading error</div>';
             }
         }
 
@@ -1876,12 +2066,12 @@
             document.getElementById('leaderboardModal').style.display = 'none';
         }
 
-        // Закрытие по клику вне модалки
         document.addEventListener('click', (e) => {
             const modal = document.getElementById('leaderboardModal');
-            if (e.target === modal) {
-                closeLeaderboardModal();
-            }
+            if (e.target === modal) closeLeaderboardModal();
+            
+            const gamesModal = document.getElementById('gamesModal');
+            if (e.target === gamesModal) closeGamesModal();
         });
 
         async function handleLogin() {
@@ -1903,6 +2093,7 @@
                     body: JSON.stringify({ login: loginInput, password })
                 });
                 const data = await r.json();
+                
                 if (r.ok && data.success) {
                     localStorage.clear();
                     localStorage.setItem('sessionId', data.sessionId);
@@ -1911,10 +2102,10 @@
                     const user = data.user;
                     if (user) {
                         const balance = ((user.deposit || 0) + (user.bonus || 0)).toFixed(2);
-                        document.getElementById('userInfo').innerHTML = `<i class="fas fa-user"></i> ${user.nickname || ''} • <i class="fas fa-wallet" style="font-size:11px;"></i> ${balance}€`;
+                        document.getElementById('userInfo').innerHTML = `<i class="fas fa-user"></i> ${user.nickname || ''} • <i class="fas fa-wallet" style="font-size:0.75rem;"></i> ${balance}€`;
                     }
 
-                    document.getElementById('authBtn').innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+                    document.getElementById('authBtn').innerHTML = '<i class="fas fa-sign-out-alt"></i> <span class="hide-mobile">Logout</span>';
                     document.getElementById('loginScreen').style.display = 'none';
                     loadAchievements();
                     loadMyBookings();
@@ -1928,12 +2119,10 @@
 
         document.getElementById('loginSubmit').addEventListener('click', handleLogin);
 
-        // Enter key support
         document.getElementById('passwordInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') handleLogin();
         });
 
-        // Restore session
         function restoreSession() {
             const user = localStorage.getItem('user');
             if (user) {
@@ -1941,27 +2130,54 @@
                     const userData = JSON.parse(user);
                     if (userData) {
                         const balance = ((userData.deposit || 0) + (userData.bonus || 0)).toFixed(2);
-                        document.getElementById('userInfo').innerHTML = `<i class="fas fa-user"></i> ${userData.nickname || ''} • <i class="fas fa-wallet" style="font-size:11px;"></i> ${balance}€`;
-                        document.getElementById('authBtn').innerHTML = '<i class="fas fa-sign-out-alt"></i> Logout';
+                        document.getElementById('userInfo').innerHTML = `<i class="fas fa-user"></i> ${userData.nickname || ''} • <i class="fas fa-wallet" style="font-size:0.75rem;"></i> ${balance}€`;
+                        document.getElementById('authBtn').innerHTML = '<i class="fas fa-sign-out-alt"></i> <span class="hide-mobile">Logout</span>';
                         loadAchievements();
                         loadMyBookings();
                     }
-                } catch (e) { console.error('Session restore error', e); }
+                } catch (e) { 
+                    console.error('Session restore error', e); 
+                }
             } else {
                 loadAchievements();
                 loadMyBookings();
             }
         }
 
+        // Mouse tracking for card hover effects
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = ((e.clientX - rect.left) / rect.width) * 100;
+                const y = ((e.clientY - rect.top) / rect.height) * 100;
+                card.style.setProperty('--mouse-x', `${x}%`);
+                card.style.setProperty('--mouse-y', `${y}%`);
+            });
+        });
+
+        // Hide mobile text on small screens
+        const style = document.createElement('style');
+        style.textContent = `
+            @media (max-width: 768px) {
+                .hide-mobile { display: none !important; }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Initialize
         restoreSession();
         loadHosts();
         loadBookings();
+        
         setInterval(() => {
             loadHosts();
             loadBookings();
         }, 30000);
-        window.addEventListener('resize', () => { draw._fittedOnce = false; draw() });
+        
+        window.addEventListener('resize', () => { 
+            draw._fittedOnce = false; 
+            draw();
+        });
     </script>
 </body>
-
 </html>

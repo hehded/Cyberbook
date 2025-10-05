@@ -123,7 +123,7 @@ export async function fetchHosts(clubId?: string): Promise<Host[]> {
 
 export async function fetchBookings(): Promise<Booking[]> {
   const now = new Date();
-  const inWeek = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+  const inWeek = new Date(now.getTime() + 24 * 60 * 60 * 1000);
   
   const formatDate = (date: Date) => {
     const pad = (n: number) => String(n).padStart(2, '0');
