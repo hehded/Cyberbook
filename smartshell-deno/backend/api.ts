@@ -436,13 +436,12 @@ async function handleGetClientPayments(req: Request): Promise<Response> {
     const authResult = validateSession(authHeader);
 
     if (!authResult.valid || !authResult.user) {
-      return new Response(JSON.stringify({ total: 0, count: 0 }), {
+      return new Response(JSON.stringify({ total: 0, bonus: 0, count: 0 }), {
         status: 401,
         headers: cors(new Headers({ "Content-Type": "application/json" })),
       });
     }
 
-    const clientId = authResult.user.id;
     const clientLogin = authResult.user.login || authResult.user.phone;
 
     // Получаем UUID клиента
@@ -461,66 +460,103 @@ async function handleGetClientPayments(req: Request): Promise<Response> {
 
     if (clientResult?.errors?.length) {
       console.error("Client UUID fetch error:", clientResult.errors);
-      return new Response(JSON.stringify({ total: 0, count: 0 }), {
+      return new Response(JSON.stringify({ total: 0, bonus: 0, count: 0 }), {
         status: 200,
         headers: cors(new Headers({ "Content-Type": "application/json" })),
       });
     }
 
     const clients = clientResult?.clients?.data || [];
-    const client = clients.find((c: any) => c.id === clientId) || clients[0];
+    const client = clients[0];
 
     if (!client?.uuid) {
       console.error("Client UUID not found");
-      return new Response(JSON.stringify({ total: 0, count: 0 }), {
+      return new Response(JSON.stringify({ total: 0, bonus: 0, count: 0 }), {
         status: 200,
         headers: cors(new Headers({ "Content-Type": "application/json" })),
       });
     }
 
-    // Получаем платежи - правильные поля из документации
-    const query = `
-      query {
-        getPaymentsByClientId(uuid: "${client.uuid}") {
-          data {
-            created_at
-            title
-            sum
-            bonus
-            card_sum
-            cash_sum
-            is_refunded
+    // Собираем все платежи с page-based пагинацией
+    let allPayments: any[] = [];
+    let currentPage = 1;
+    let hasMore = true;
+
+    while (hasMore) {
+      const query = `
+        query {
+          getPaymentsByClientId(
+            uuid: "${client.uuid}"
+            page: ${currentPage}
+            first: 100
+          ) {
+            data {
+              created_at
+              sum
+              bonus
+              is_refunded
+            }
+            paginatorInfo {
+              currentPage
+              lastPage
+              total
+            }
           }
         }
+      `;
+
+      const result: any = await shell.call(query as any);
+
+      if (result?.errors?.length) {
+        console.error("Payments error page", currentPage, ":", result.errors);
+        break;
       }
-    `;
 
-    const result: any = await shell.call(query as any);
+      const paymentsData = result?.getPaymentsByClientId?.data || [];
+      const paginatorInfo = result?.getPaymentsByClientId?.paginatorInfo;
 
-    if (result?.errors?.length) {
-      console.error("Payments error:", result.errors);
-      return new Response(JSON.stringify({ total: 0, count: 0 }), {
-        status: 200,
-        headers: cors(new Headers({ "Content-Type": "application/json" })),
-      });
+      allPayments = allPayments.concat(paymentsData);
+
+      console.log(`[Payments] Page ${currentPage}/${paginatorInfo?.lastPage || '?'}, fetched ${paymentsData.length}, total so far: ${allPayments.length}`);
+
+      // Проверяем, есть ли ещё страницы
+      if (paginatorInfo && currentPage < paginatorInfo.lastPage) {
+        currentPage++;
+      } else {
+        hasMore = false;
+      }
+
+      // Защита от бесконечного цикла
+      if (currentPage > 100) {
+        console.warn('[Payments] Stopping after 100 pages');
+        break;
+      }
     }
 
-    const payments = result?.getPaymentsByClientId?.data || [];
+    console.log(`[Payments] Total fetched: ${allPayments.length} payments`);
 
-    // Считаем только не возвращённые платежи
-    const validPayments = payments.filter((p: any) => !p.is_refunded);
-    const totalSum = validPayments.reduce(
-      (sum: number, p: any) => sum + (p.sum || 0),
-      0,
-    );
-    // const totalBonus = validPayments.reduce((sum: number, p: any) => sum + (p.bonus || 0), 0);
+    // Фильтруем с сентября 2024
+    const septemberStart = new Date('2024-09-01T00:00:00Z');
+    
+    const validPayments = allPayments.filter((p: any) => {
+      if (p.is_refunded) return false;
+      
+      const paymentDate = new Date(p.created_at);
+      return paymentDate >= septemberStart;
+    });
+    
+    console.log(`[Payments] After filtering (Sep 2024+, no refunds): ${validPayments.length} payments`);
+
+    // Считаем суммы
+    const totalSum = validPayments.reduce((acc: number, p: any) => acc + (p.sum || 0), 0);
+    const totalBonus = validPayments.reduce((acc: number, p: any) => acc + (p.bonus || 0), 0);
 
     return new Response(
       JSON.stringify({
         total: totalSum.toFixed(2),
-        // totalBonus: totalBonus.toFixed(2),
+        bonus: totalBonus.toFixed(2),
         count: validPayments.length,
-        payments: validPayments,
+        average: validPayments.length > 0 ? (totalSum / validPayments.length).toFixed(2) : '0.00'
       }),
       {
         status: 200,
@@ -529,13 +565,12 @@ async function handleGetClientPayments(req: Request): Promise<Response> {
     );
   } catch (err) {
     console.error("Get payments error:", err);
-    return new Response(JSON.stringify({ total: 0, count: 0 }), {
+    return new Response(JSON.stringify({ total: 0, bonus: 0, count: 0 }), {
       status: 500,
       headers: cors(new Headers({ "Content-Type": "application/json" })),
     });
   }
 }
-
 async function handleGetLeaderboard(req: Request): Promise<Response> {
   try {
     const now = new Date();
@@ -765,11 +800,12 @@ export async function handleApiRequest(req: Request): Promise<Response> {
 
     case method === "GET" && pathname === "/api/leaderboard":
       return handleGetLeaderboard(req);
-
+    // case method === "GET" && pathname === "/api/payments": // ← НОВЫЙ РОУТ
+    //   return handleGetClientPayments(req);
+    
     case method === "DELETE" && pathname.startsWith("/api/bookings/"):
       const bookingId = pathname.split("/").pop();
       return handleCancelBooking(req);
-
 
     //  case method === "GET" && pathname === "/api/payments":  // ← НОВЫЙ РОУТ
     //   return handleGetClientPayments(req);

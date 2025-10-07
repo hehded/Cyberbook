@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes" />
@@ -62,10 +63,13 @@
         }
 
         @media (max-width: 768px) {
-            html { font-size: 15px; }
+            html {
+                font-size: 15px;
+            }
         }
 
-        html, body {
+        html,
+        body {
             height: 100%;
             overflow-x: hidden;
         }
@@ -74,7 +78,7 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             color: var(--text);
             background: var(--bg);
-            background-image: 
+            background-image:
                 radial-gradient(ellipse 120% 80% at 10% -10%, rgba(102, 126, 234, 0.15), transparent 50%),
                 radial-gradient(ellipse 100% 70% at 90% 110%, rgba(118, 75, 162, 0.12), transparent 50%),
                 radial-gradient(ellipse 80% 60% at 50% 50%, rgba(102, 126, 234, 0.05), transparent 50%);
@@ -88,7 +92,7 @@
             content: "";
             position: fixed;
             inset: 0;
-            background: 
+            background:
                 radial-gradient(circle at 20% 50%, rgba(102, 126, 234, 0.08) 0%, transparent 50%),
                 radial-gradient(circle at 80% 80%, rgba(118, 75, 162, 0.08) 0%, transparent 50%);
             animation: bgPulse 20s ease-in-out infinite alternate;
@@ -96,8 +100,15 @@
         }
 
         @keyframes bgPulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+
+            0%,
+            100% {
+                opacity: 0.6;
+            }
+
+            50% {
+                opacity: 1;
+            }
         }
 
         body::after {
@@ -136,9 +147,18 @@
                 gap: var(--space-md);
                 padding: var(--space-sm);
             }
-            #leftSidebar { order: 2; }
-            main { order: 1; }
-            #rightSidebar { order: 3; }
+
+            #leftSidebar {
+                order: 2;
+            }
+
+            main {
+                order: 1;
+            }
+
+            #rightSidebar {
+                order: 3;
+            }
         }
 
         @media (max-width: 640px) {
@@ -219,8 +239,13 @@
         }
 
         @media (max-width: 640px) {
-            .h1 { font-size: 1.125rem; }
-            .small { font-size: 0.8125rem; }
+            .h1 {
+                font-size: 1.125rem;
+            }
+
+            .small {
+                font-size: 0.8125rem;
+            }
         }
 
         /* Controls */
@@ -276,8 +301,13 @@
             border-color: var(--border-strong);
         }
 
-        .btn:hover::before { opacity: 1; }
-        .btn:active { transform: translateY(0) scale(0.98); }
+        .btn:hover::before {
+            opacity: 1;
+        }
+
+        .btn:active {
+            transform: translateY(0) scale(0.98);
+        }
 
         .btn.primary {
             background: var(--accent);
@@ -291,7 +321,9 @@
             box-shadow: var(--shadow-lg), 0 0 30px rgba(102, 126, 234, 0.3);
         }
 
-        .btn i { font-size: 0.875rem; }
+        .btn i {
+            font-size: 0.875rem;
+        }
 
         @media (max-width: 640px) {
             .btn {
@@ -302,7 +334,9 @@
         }
 
         /* Input fields */
-        .input, select, textarea {
+        .input,
+        select,
+        textarea {
             width: 100%;
             padding: 0.75rem 1rem;
             border-radius: var(--radius-md);
@@ -316,11 +350,14 @@
             backdrop-filter: var(--blur);
         }
 
-        .input::placeholder, textarea::placeholder {
+        .input::placeholder,
+        textarea::placeholder {
             color: rgba(148, 163, 184, 0.5);
         }
 
-        .input:focus, select:focus, textarea:focus {
+        .input:focus,
+        select:focus,
+        textarea:focus {
             outline: none;
             border-color: rgba(102, 126, 234, 0.5);
             box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1), var(--shadow-sm);
@@ -328,7 +365,10 @@
         }
 
         @media (max-width: 640px) {
-            .input, select, textarea {
+
+            .input,
+            select,
+            textarea {
                 font-size: 1rem;
                 min-height: 44px;
             }
@@ -375,10 +415,15 @@
             transform: translateY(-2px);
         }
 
-        .card:hover::before, .card:hover::after { opacity: 1; }
+        .card:hover::before,
+        .card:hover::after {
+            opacity: 1;
+        }
 
         @media (max-width: 640px) {
-            .card { padding: var(--space-md); }
+            .card {
+                padding: var(--space-md);
+            }
         }
 
         /* Map */
@@ -406,7 +451,9 @@
         }
 
         @media (max-width: 1024px) {
-            .mapWrap { height: 60vh; }
+            .mapWrap {
+                height: 60vh;
+            }
         }
 
         @media (max-width: 640px) {
@@ -433,18 +480,24 @@
             padding-right: var(--space-xs);
         }
 
-        .list::-webkit-scrollbar { width: 6px; }
+        .list::-webkit-scrollbar {
+            width: 6px;
+        }
+
         .list::-webkit-scrollbar-track {
             background: var(--glass);
             border-radius: 3px;
         }
+
         .list::-webkit-scrollbar-thumb {
             background: var(--accent);
             border-radius: 3px;
         }
+
         .list::-webkit-scrollbar-thumb:hover {
             background: var(--accent-hover);
         }
+
         .list {
             scrollbar-width: thin;
             scrollbar-color: rgba(102, 126, 234, 0.5) transparent;
@@ -482,10 +535,14 @@
             background: var(--glass-strong);
         }
 
-        .item:hover::before { opacity: 1; }
+        .item:hover::before {
+            opacity: 1;
+        }
 
         @media (max-width: 640px) {
-            .item { padding: var(--space-sm) var(--space-md); }
+            .item {
+                padding: var(--space-sm) var(--space-md);
+            }
         }
 
         /* Modals */
@@ -496,7 +553,7 @@
             align-items: center;
             justify-content: center;
             background: rgba(5, 10, 18, 0.9);
-            z-index: 1000;
+            z-index: 9999;
             backdrop-filter: blur(24px) saturate(180%);
             animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             padding: var(--space-md);
@@ -504,13 +561,19 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .modalCard {
             width: 100%;
             max-width: 560px;
+            max-height: 90vh;
             background: var(--card);
             padding: var(--space-xl);
             border-radius: var(--radius-xl);
@@ -518,7 +581,7 @@
             box-shadow: var(--shadow-lg), 0 0 60px rgba(102, 126, 234, 0.15);
             animation: modalSlideIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
             position: relative;
-            overflow: hidden;
+            overflow-y: auto;
             backdrop-filter: var(--blur);
         }
 
@@ -537,6 +600,7 @@
                 opacity: 0;
                 transform: translateY(30px) scale(0.95);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -561,12 +625,16 @@
                 padding: var(--space-sm);
                 align-items: flex-start;
             }
+
             .modalCard {
                 padding: var(--space-lg);
                 max-width: 100%;
                 margin-top: var(--space-md);
             }
-            .modal h3 { font-size: 1.25rem; }
+
+            .modal h3 {
+                font-size: 1.25rem;
+            }
         }
 
         /* Tooltip */
@@ -586,7 +654,9 @@
         }
 
         /* PC Info Modal */
-        .pc-info-modal .modalCard { max-width: 480px; }
+        .pc-info-modal .modalCard {
+            max-width: 480px;
+        }
 
         .pc-info-header {
             display: flex;
@@ -627,20 +697,23 @@
 
         /* Utility */
         .skeleton {
-            background: linear-gradient(
-                90deg,
-                var(--glass) 0%,
-                var(--glass-strong) 50%,
-                var(--glass) 100%
-            );
+            background: linear-gradient(90deg,
+                    var(--glass) 0%,
+                    var(--glass-strong) 50%,
+                    var(--glass) 100%);
             background-size: 200% 100%;
             animation: shimmer 1.5s infinite;
             border-radius: var(--radius-sm);
         }
 
         @keyframes shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
 
         .skeleton-text {
@@ -665,7 +738,9 @@
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         *:focus-visible {
@@ -674,27 +749,38 @@
         }
 
         @media (hover: none) and (pointer: coarse) {
-            .btn, .item { min-height: 44px; }
+
+            .btn,
+            .item {
+                min-height: 44px;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <!-- Левый сайдбар -->
         <aside class="sidebar" id="leftSidebar">
             <div class="card">
-                <div class="small" style="margin-bottom:var(--space-md); font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
+                <div class="small"
+                    style="margin-bottom:var(--space-md); font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
                     <i class="fas fa-trophy" style="color:var(--accent-glow);"></i> Achievements
                 </div>
                 <div id="achievements" class="list"></div>
             </div>
 
             <div class="card">
-                <div class="small" style="margin-bottom:var(--space-md); font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
+                <div class="small"
+                    style="margin-bottom:var(--space-md); font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
                     <i class="fas fa-calendar-check" style="color:var(--booked);"></i> My Bookings
                 </div>
                 <div id="myBookings" class="list"></div>
             </div>
+            <!-- <div class="card">
+                <div class="small" style="margin-bottom:8px">💳 Статистика платежей</div>
+                <div id="payments" class="list"></div>
+            </div> -->
         </aside>
 
         <!-- Центральная карта -->
@@ -744,18 +830,21 @@
         <!-- Правый сайдбар -->
         <aside class="sidebar" id="rightSidebar">
             <div class="card">
-                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md)">
+                <div
+                    style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-md)">
                     <div class="small" style="font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
                         <i class="fas fa-chart-pie" style="color:var(--accent-glow);"></i> Summary
                     </div>
-                    <div id="userInfo" class="small" style="color:var(--muted); display:flex; align-items:center; gap:var(--space-sm);">
+                    <div id="userInfo" class="small"
+                        style="color:var(--muted); display:flex; align-items:center; gap:var(--space-sm);">
                     </div>
                 </div>
                 <div id="summary"></div>
             </div>
 
             <div class="card">
-                <div class="small" style="margin-bottom:var(--space-md); font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
+                <div class="small"
+                    style="margin-bottom:var(--space-md); font-weight:600; display:flex; align-items:center; gap:var(--space-sm);">
                     <i class="fas fa-clock" style="color:var(--free);"></i> Upcoming Bookings
                 </div>
                 <div id="upcomingBookings" class="list"></div>
@@ -766,14 +855,16 @@
     <!-- Games Modal -->
     <div id="gamesModal" style="display:none" class="modal">
         <div class="modalCard" style="max-width: 900px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
                 <h3><i class="fas fa-gamepad"></i> Club Games</h3>
                 <button onclick="closeGamesModal()"
                     style="background:none; border:none; color:var(--muted); cursor:pointer; font-size:28px; transition:color 0.2s;"
                     onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">×</button>
             </div>
 
-            <div id="gamesFilter" style="margin-bottom: var(--space-md); display:flex; gap:var(--space-md); flex-wrap:wrap; align-items:center;">
+            <div id="gamesFilter"
+                style="margin-bottom: var(--space-md); display:flex; gap:var(--space-md); flex-wrap:wrap; align-items:center;">
                 <select id="gameGroupFilter" class="input" style="width: 200px; margin-bottom: 0;">
                     <option value="">All games</option>
                 </select>
@@ -807,7 +898,8 @@
 
             <div id="pcBookings" style="display:none">
                 <div class="small" style="margin-bottom:var(--space-sm); font-weight:500;">Future bookings:</div>
-                <div class="booking-list" id="pcBookingsList" style="display:flex; flex-direction:column; gap:var(--space-sm);"></div>
+                <div class="booking-list" id="pcBookingsList"
+                    style="display:flex; flex-direction:column; gap:var(--space-sm);"></div>
             </div>
 
             <div style="display:flex; gap:var(--space-sm); margin-top:var(--space-lg);">
@@ -824,11 +916,13 @@
         <div class="modalCard">
             <h3><i class="fas fa-sign-in-alt"></i> Client Login</h3>
             <div style="margin-top:var(--space-md)">
-                <label class="label small" style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Phone</label>
+                <label class="label small"
+                    style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Phone</label>
                 <input id="loginInput" class="input" placeholder="+371..." />
             </div>
             <div style="margin-top:var(--space-md)">
-                <label class="label small" style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Password</label>
+                <label class="label small"
+                    style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Password</label>
                 <input id="passwordInput" class="input" type="password" placeholder="••••••••" />
             </div>
             <div style="display:flex;gap:var(--space-sm);margin-top:var(--space-lg);">
@@ -848,11 +942,13 @@
             <div id="selectedHostInfo" style="margin:var(--space-md) 0;color:var(--muted); font-size:0.875rem;"></div>
 
             <div style="margin-top:var(--space-md)">
-                <label class="label small" style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Start time</label>
+                <label class="label small" style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Start
+                    time</label>
                 <input id="datetime" class="input" type="datetime-local" />
             </div>
             <div style="margin-top:var(--space-md)">
-                <label class="label small" style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Duration</label>
+                <label class="label small"
+                    style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Duration</label>
                 <select id="duration" class="input">
                     <option value="1">1 hour</option>
                     <option value="2">2 hours</option>
@@ -863,7 +959,8 @@
                 </select>
             </div>
             <div style="margin-top:var(--space-md)">
-                <label class="label small" style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Comment (optional)</label>
+                <label class="label small"
+                    style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Comment (optional)</label>
                 <textarea id="comment" class="input" rows="3" placeholder="Additional requests..."></textarea>
             </div>
 
@@ -880,14 +977,16 @@
     <!-- Leaderboard Modal -->
     <div id="leaderboardModal" style="display:none" class="modal">
         <div class="modalCard" style="max-width:700px;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-lg);">
+            <div
+                style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-lg);">
                 <h3 style="margin:0;"><i class="fas fa-trophy"></i> Leaderboard</h3>
                 <button onclick="closeLeaderboardModal()"
                     style="background:none; border:none; font-size:28px; cursor:pointer; color:var(--muted); transition:color 0.2s;"
                     onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">×</button>
             </div>
 
-            <div id="leaderboardMonth" class="small" style="margin-bottom:var(--space-lg); color:var(--muted); font-weight:500;"></div>
+            <div id="leaderboardMonth" class="small"
+                style="margin-bottom:var(--space-lg); color:var(--muted); font-weight:500;"></div>
 
             <div id="leaderboardContent" style="display:flex; flex-direction:column; gap:var(--space-sm);">
                 <div style="text-align:center; padding:var(--space-xl); color:var(--muted);">
@@ -899,7 +998,7 @@
     </div>
 
     <div id="tooltip" class="tooltip" style="display:none"></div>
-<script>
+    <script>
         let allGames = [];
 
         async function loadGames() {
@@ -1674,8 +1773,8 @@
                 const myBookings = allBookings.filter(b => {
                     const bookingEnd = new Date(b.to);
                     return b.client?.id === user.id &&
-                           (b.status === 'PENDING' || b.status === 'ACTIVE') &&
-                           bookingEnd > now;
+                        (b.status === 'PENDING' || b.status === 'ACTIVE') &&
+                        bookingEnd > now;
                 });
 
                 if (myBookings.length === 0) {
@@ -1887,7 +1986,7 @@
             const minutes = String(rigaTime.getMinutes()).padStart(2, '0');
             const min = `${year}-${month}-${day}T${hours}:${minutes}`;
             const dt = document.getElementById('datetime');
-            dt.min = min; 
+            dt.min = min;
             dt.value = min;
             document.getElementById('bookingModal').style.display = 'flex';
         }
@@ -1916,18 +2015,18 @@
             const datetime = document.getElementById('datetime').value;
             const durationHours = Number(document.getElementById('duration').value);
             const comment = document.getElementById('comment').value.trim();
-            const msg = document.getElementById('formMessage'); 
+            const msg = document.getElementById('formMessage');
             msg.innerHTML = '';
-            
+
             if (!datetime) {
                 msg.innerHTML = '<div style="color:#f87171">× Select time</div>';
                 return;
             }
-            
+
             const fromIso = new Date(datetime).toISOString();
             const sessionId = localStorage.getItem('sessionId');
             const user = JSON.parse(localStorage.getItem('user'));
-            
+
             try {
                 const res = await fetch('/api/bookings', {
                     method: 'POST',
@@ -1943,9 +2042,9 @@
                         comment
                     })
                 });
-                
+
                 const json = await res.json();
-                
+
                 if (!res.ok) {
                     if (res.status === 401) {
                         alert('Session expired. Please login again.');
@@ -1957,7 +2056,7 @@
                     }
                     throw new Error(json.error || 'Error');
                 }
-                
+
                 msg.innerHTML = '<div style="color:var(--free)">✓ Booking created. ID: ' + json.id + '</div>';
 
                 setTimeout(async () => {
@@ -2069,10 +2168,61 @@
         document.addEventListener('click', (e) => {
             const modal = document.getElementById('leaderboardModal');
             if (e.target === modal) closeLeaderboardModal();
-            
+
             const gamesModal = document.getElementById('gamesModal');
             if (e.target === gamesModal) closeGamesModal();
         });
+        async function loadPayments() {
+            const container = document.getElementById('payments');
+
+            if (!isLoggedIn()) {
+                container.innerHTML = '<div class="small" style="color:var(--muted);padding:8px">Login to view stats</div>';
+                return;
+            }
+
+            try {
+                const res = await fetch('/api/payments', {
+                    cache: 'no-store',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('sessionId')
+                    }
+                });
+                const data = await res.json();
+
+                container.innerHTML = `
+            <div style="padding:14px; background:var(--glass); border-radius:10px; border:1px solid var(--border);">
+                <div style="margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border);">
+                    <div class="small" style="color:var(--muted); margin-bottom:4px;">Total deposits (Sep 2024+)</div>
+                    <div style="font-size:24px; font-weight:700; color:var(--accent);">${data.total}€</div>
+                </div>
+
+                <div style="display:flex; flex-direction:column; gap:8px; font-size:13px;">
+                    ${parseFloat(data.bonus) > 0 ? `
+                        <div style="display:flex; justify-content:space-between;">
+                            <span style="color:var(--free);">Bonus earned</span>
+                            <span style="font-weight:600; color:var(--free);">+${data.bonus}€</span>
+                        </div>
+                    ` : ''}
+                    ${data.count > 0 ? `
+                        <div style="display:flex; justify-content:space-between;">
+                            <span style="color:var(--muted);">Transactions</span>
+                            <span style="font-weight:500;">${data.count}</span>
+                        </div>
+                    ` : ''}
+                    ${parseFloat(data.average) > 0 ? `
+                        <div style="display:flex; justify-content:space-between; margin-top:4px; padding-top:8px; border-top:1px solid rgba(255,255,255,0.05);">
+                            <span style="color:var(--muted);">Average check</span>
+                            <span style="font-weight:500;">${data.average}€</span>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+        `;
+            } catch (err) {
+                console.error('Failed to load payments:', err);
+                container.innerHTML = '<div class="small" style="color:var(--muted);padding:8px">Loading error</div>';
+            }
+        }
 
         async function handleLogin() {
             const loginInput = document.getElementById('loginInput').value.trim();
@@ -2093,7 +2243,7 @@
                     body: JSON.stringify({ login: loginInput, password })
                 });
                 const data = await r.json();
-                
+
                 if (r.ok && data.success) {
                     localStorage.clear();
                     localStorage.setItem('sessionId', data.sessionId);
@@ -2109,6 +2259,8 @@
                     document.getElementById('loginScreen').style.display = 'none';
                     loadAchievements();
                     loadMyBookings();
+                    loadPayments();
+
                 } else {
                     errorEl.textContent = data.error || 'Invalid login/password';
                 }
@@ -2135,8 +2287,8 @@
                         loadAchievements();
                         loadMyBookings();
                     }
-                } catch (e) { 
-                    console.error('Session restore error', e); 
+                } catch (e) {
+                    console.error('Session restore error', e);
                 }
             } else {
                 loadAchievements();
@@ -2168,16 +2320,19 @@
         restoreSession();
         loadHosts();
         loadBookings();
-        
+        loadPayments();
+
+
         setInterval(() => {
             loadHosts();
             loadBookings();
         }, 30000);
-        
-        window.addEventListener('resize', () => { 
-            draw._fittedOnce = false; 
+
+        window.addEventListener('resize', () => {
+            draw._fittedOnce = false;
             draw();
         });
     </script>
 </body>
+
 </html>

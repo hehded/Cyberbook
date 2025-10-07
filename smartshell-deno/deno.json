@@ -7,5 +7,13 @@
   },
   "compilerOptions": {
     "strict": true
+  },
+  "deploy": {
+    "project": "95f1ab01-0e9b-40b8-a6d3-f4d8c4eae5c9",
+    "exclude": [
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "main.ts"
   }
 }
