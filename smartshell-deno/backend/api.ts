@@ -800,8 +800,8 @@ export async function handleApiRequest(req: Request): Promise<Response> {
 
     case method === "GET" && pathname === "/api/leaderboard":
       return handleGetLeaderboard(req);
-    // case method === "GET" && pathname === "/api/payments": // ← НОВЫЙ РОУТ
-    //   return handleGetClientPayments(req);
+    case method === "GET" && pathname === "/api/payments": // ← НОВЫЙ РОУТ
+      return handleGetClientPayments(req);
     
     case method === "DELETE" && pathname.startsWith("/api/bookings/"):
       const bookingId = pathname.split("/").pop();
