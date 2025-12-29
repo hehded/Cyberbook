@@ -6,6 +6,7 @@
 import { BaseController } from './BaseController.ts';
 import { ResponseFactory } from '../factories/ResponseFactory.ts';
 import * as esbuild from "https://deno.land/x/esbuild@v0.20.0/mod.js";
+import { join, dirname, fromFileUrl } from "https://deno.land/std@0.208.0/path/mod.ts";
 
 // Use global types for Request and Response
 type Request = globalThis.Request;
@@ -13,10 +14,17 @@ type Response = globalThis.Response;
 
 export class StaticController extends BaseController {
   private esbuildInitialized = false;
+  private rootDir: string;
 
   constructor() {
     super();
     this.initEsbuild();
+    // Calculate root directory relative to this file
+    // This file is in src/backend/controllers/StaticController.ts
+    // Root is ../../../
+    const currentDir = dirname(fromFileUrl(import.meta.url));
+    this.rootDir = join(currentDir, "..", "..", "..");
+    console.log(`StaticController initialized. Root dir resolved to: ${this.rootDir}`);
   }
 
   private async initEsbuild() {
@@ -52,27 +60,21 @@ export class StaticController extends BaseController {
 
     // Determine content type and file path
     let contentType = "text/plain";
-    let filePath = pathname.startsWith("/") ? pathname.substring(1) : pathname;
+    // Remove leading slash to join correctly
+    let relativePath = pathname.startsWith("/") ? pathname.substring(1) : pathname;
 
-    // Map /src/... to correct location if needed
-    // The structure is:
-    // /src/frontend/... -> smartshell-deno/src/frontend/...
-    // /frontend/... -> smartshell-deno/frontend/...
-
-    // Check if file exists
-    // We try multiple locations:
-    // 1. Exact match
-    // 2. src/frontend/... -> smartshell-deno/src/frontend/...
+    // Determine possible file paths
+    // The request path generally mirrors the file structure from root
 
     // If request is for .js, we might need to look for .ts
     if (pathname.endsWith(".js")) {
       // Check if .js exists
-      if (await this.fileExists(filePath)) {
-        return this.serveFile(filePath, "application/javascript");
+      if (await this.fileExists(relativePath)) {
+        return this.serveFile(relativePath, "application/javascript");
       }
 
       // Check if .ts exists
-      const tsPath = filePath.replace(/\.js$/, ".ts");
+      const tsPath = relativePath.replace(/\.js$/, ".ts");
       if (await this.fileExists(tsPath)) {
         return this.serveTranspiledTs(tsPath);
       }
@@ -80,8 +82,8 @@ export class StaticController extends BaseController {
 
     // Handle .ts files requested directly (by imports in other files)
     if (pathname.endsWith(".ts")) {
-       if (await this.fileExists(filePath)) {
-         return this.serveTranspiledTs(filePath);
+       if (await this.fileExists(relativePath)) {
+         return this.serveTranspiledTs(relativePath);
        }
     }
 
@@ -93,25 +95,32 @@ export class StaticController extends BaseController {
     else if (pathname.endsWith(".svg")) contentType = "image/svg+xml";
     else if (pathname.endsWith(".json")) contentType = "application/json";
 
-    if (await this.fileExists(filePath)) {
-      return this.serveFile(filePath, contentType);
+    if (await this.fileExists(relativePath)) {
+      return this.serveFile(relativePath, contentType);
     }
 
+    console.warn(`File not found: ${relativePath} (Root: ${this.rootDir})`);
     return ResponseFactory.notFound(`File not found: ${pathname}`);
   }
 
-  private async fileExists(path: string): Promise<boolean> {
+  private resolvePath(relativePath: string): string {
+    return join(this.rootDir, relativePath);
+  }
+
+  private async fileExists(relativePath: string): Promise<boolean> {
     try {
-      const stat = await Deno.stat(path);
+      const fullPath = this.resolvePath(relativePath);
+      const stat = await Deno.stat(fullPath);
       return stat.isFile;
     } catch {
       return false;
     }
   }
 
-  private async serveFile(path: string, contentType: string): Promise<Response> {
+  private async serveFile(relativePath: string, contentType: string): Promise<Response> {
     try {
-      const file = await Deno.readFile(path);
+      const fullPath = this.resolvePath(relativePath);
+      const file = await Deno.readFile(fullPath);
       return new Response(file, {
         headers: {
           "content-type": contentType,
@@ -119,14 +128,15 @@ export class StaticController extends BaseController {
         },
       });
     } catch (error) {
-      console.error(`Error serving file ${path}:`, error);
+      console.error(`Error serving file ${relativePath} at ${this.resolvePath(relativePath)}:`, error);
       return ResponseFactory.serverError();
     }
   }
 
-  private async serveTranspiledTs(path: string): Promise<Response> {
+  private async serveTranspiledTs(relativePath: string): Promise<Response> {
     try {
-      const code = await Deno.readTextFile(path);
+      const fullPath = this.resolvePath(relativePath);
+      const code = await Deno.readTextFile(fullPath);
 
       // Strip CSS imports as they break in browser ESM
       // Matches: import './something.css'; or import "something.css";
@@ -151,7 +161,7 @@ export class StaticController extends BaseController {
         },
       });
     } catch (error) {
-      console.error(`Error transpiling ${path}:`, error);
+      console.error(`Error transpiling ${relativePath}:`, error);
       return ResponseFactory.serverError(`Transpilation failed: ${error.message}`);
     }
   }
