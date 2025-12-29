@@ -9,6 +9,7 @@ import { BookingController } from '../controllers/BookingController.ts';
 import { HostController } from '../controllers/HostController.ts';
 import { PaymentController } from '../controllers/PaymentController.ts';
 import { SessionController } from '../controllers/SessionController.ts';
+import { StaticController } from '../controllers/StaticController.ts';
 import { ResponseFactory } from '../factories/ResponseFactory.ts';
 
 import authRoutes from './auth.ts';
@@ -71,16 +72,22 @@ export class Router {
     // Find matching route
     const route = this.findRoute(method, pathname);
     
-    if (!route) {
-      return ResponseFactory.notFound("Endpoint not found");
+    if (route) {
+      try {
+        return await route.handler(req);
+      } catch (error) {
+        console.error('Router error:', error);
+        return ResponseFactory.serverError("Internal server error");
+      }
     }
 
-    try {
-      return await route.handler(req);
-    } catch (error) {
-      console.error('Router error:', error);
-      return ResponseFactory.serverError("Internal server error");
+    // Fallback to static file handling
+    if (method === "GET") {
+      const staticController = new StaticController();
+      return staticController.serveStatic(req);
     }
+
+    return ResponseFactory.notFound("Endpoint not found");
   }
 
   /**
