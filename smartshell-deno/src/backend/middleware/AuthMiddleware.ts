@@ -28,16 +28,23 @@ export function createAuthMiddleware(authService: IAuthService) {
       '/api/validate-session',
       '/api/shortcuts',
       '/api/leaderboard',
-      '/api/achievements'
+      '/api/achievements',
+      '/api/hosts',       // Public host list
+      '/api/bookings',    // Public booking schedule
+      '/api/debug/fs'     // Debug endpoint
     ];
     
     // Skip auth for static assets (css, js, images, etc.)
-    const isStaticAsset = pathname.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i);
+    // Added .ts, .map, .json for development/debugging
+    const isStaticAsset = pathname.match(/\.(css|js|ts|map|json|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i);
     
     // Skip auth for OPTIONS requests
     const isOptionsRequest = req.method === 'OPTIONS';
+
+    // Allow GET requests to /api/hosts/* (e.g. nearby, status)
+    const isPublicHostRequest = pathname.startsWith('/api/hosts/') && req.method === 'GET';
     
-    if (publicPaths.includes(pathname) || isStaticAsset || isOptionsRequest) {
+    if (publicPaths.includes(pathname) || isStaticAsset || isOptionsRequest || isPublicHostRequest) {
       console.log(`[AuthMiddleware] Skipping auth for public path: ${pathname}`);
       return await next();
     }
