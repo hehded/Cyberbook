@@ -3,7 +3,8 @@
  * Initializes the refactored frontend architecture
  */
 
-import './styles/main.css';
+// We don't import CSS here because we load it in HTML to avoid transpilation issues
+// import './styles/main.css';
 import { app } from './modules/App.ts';
 import { MapComponent } from './modules/MapComponent.ts';
 
@@ -27,7 +28,7 @@ function initializeFrontend(): void {
 async function loadTemplates(): Promise<void> {
   // Load main template
   try {
-    const mainTemplateResponse = await fetch('../templates/main.html');
+    const mainTemplateResponse = await fetch('./templates/main.html');
     const mainTemplate = await mainTemplateResponse.text();
     
     if (document.body) {
@@ -35,7 +36,7 @@ async function loadTemplates(): Promise<void> {
     }
     
     // Load modal templates
-    const modalTemplatesResponse = await fetch('../templates/modals.html');
+    const modalTemplatesResponse = await fetch('./templates/modals.html');
     const modalTemplates = await modalTemplatesResponse.text();
     
     const modalContainer = document.createElement('div');

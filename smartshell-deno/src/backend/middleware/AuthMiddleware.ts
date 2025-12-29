@@ -35,8 +35,8 @@ export function createAuthMiddleware(authService: IAuthService) {
     ];
     
     // Skip auth for static assets (css, js, images, etc.)
-    // Added .ts, .map, .json for development/debugging
-    const isStaticAsset = pathname.match(/\.(css|js|ts|map|json|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i);
+    // Added .ts, .map, .json, .html for development/debugging and templates
+    const isStaticAsset = pathname.match(/\.(css|js|ts|map|json|html|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i);
     
     // Skip auth for OPTIONS requests
     const isOptionsRequest = req.method === 'OPTIONS';
