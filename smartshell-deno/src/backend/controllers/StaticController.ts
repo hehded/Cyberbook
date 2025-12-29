@@ -6,7 +6,8 @@
 import { BaseController } from './BaseController.ts';
 import { ResponseFactory } from '../factories/ResponseFactory.ts';
 import * as esbuild from "https://deno.land/x/esbuild@v0.20.0/mod.js";
-import { join, dirname, fromFileUrl } from "https://deno.land/std@0.208.0/path/mod.ts";
+import { join, dirname, fromFileUrl, walk } from "https://deno.land/std@0.208.0/path/mod.ts";
+import { walk as fsWalk } from "https://deno.land/std@0.208.0/fs/walk.ts";
 
 // Use global types for Request and Response
 type Request = globalThis.Request;
@@ -24,7 +25,7 @@ export class StaticController extends BaseController {
     // Root is ../../../
     const currentDir = dirname(fromFileUrl(import.meta.url));
     this.rootDir = join(currentDir, "..", "..", "..");
-    console.log(`StaticController initialized. Root dir resolved to: ${this.rootDir}`);
+    console.log(`[StaticController] Initialized. Root dir resolved to: ${this.rootDir}`);
   }
 
   private async initEsbuild() {
@@ -34,6 +35,7 @@ export class StaticController extends BaseController {
           worker: false,
         });
         this.esbuildInitialized = true;
+        console.log("[StaticController] Esbuild initialized");
       } catch (e) {
         // May already be initialized
         this.esbuildInitialized = true;
@@ -48,6 +50,13 @@ export class StaticController extends BaseController {
     const url = new URL(req.url);
     let pathname = url.pathname;
 
+    console.log(`[StaticController] Handling request: ${pathname}`);
+
+    // Debug endpoint to list files
+    if (pathname === "/api/debug/fs") {
+      return this.listFileSystem();
+    }
+
     // Default to index-refactored.html for root
     if (pathname === "/" || pathname === "/index.html") {
       return this.serveFile("frontend/index-refactored.html", "text/html");
@@ -55,6 +64,7 @@ export class StaticController extends BaseController {
 
     // Security check: prevent directory traversal
     if (pathname.includes("..")) {
+      console.warn(`[StaticController] Blocked directory traversal: ${pathname}`);
       return ResponseFactory.forbidden("Access denied");
     }
 
@@ -62,9 +72,6 @@ export class StaticController extends BaseController {
     let contentType = "text/plain";
     // Remove leading slash to join correctly
     let relativePath = pathname.startsWith("/") ? pathname.substring(1) : pathname;
-
-    // Determine possible file paths
-    // The request path generally mirrors the file structure from root
 
     // If request is for .js, we might need to look for .ts
     if (pathname.endsWith(".js")) {
@@ -99,7 +106,7 @@ export class StaticController extends BaseController {
       return this.serveFile(relativePath, contentType);
     }
 
-    console.warn(`File not found: ${relativePath} (Root: ${this.rootDir})`);
+    console.warn(`[StaticController] File not found: ${relativePath} (Root: ${this.rootDir})`);
     return ResponseFactory.notFound(`File not found: ${pathname}`);
   }
 
@@ -120,6 +127,7 @@ export class StaticController extends BaseController {
   private async serveFile(relativePath: string, contentType: string): Promise<Response> {
     try {
       const fullPath = this.resolvePath(relativePath);
+      console.log(`[StaticController] Serving file: ${fullPath} as ${contentType}`);
       const file = await Deno.readFile(fullPath);
       return new Response(file, {
         headers: {
@@ -128,7 +136,7 @@ export class StaticController extends BaseController {
         },
       });
     } catch (error) {
-      console.error(`Error serving file ${relativePath} at ${this.resolvePath(relativePath)}:`, error);
+      console.error(`[StaticController] Error serving file ${relativePath} at ${this.resolvePath(relativePath)}:`, error);
       return ResponseFactory.serverError();
     }
   }
@@ -136,6 +144,7 @@ export class StaticController extends BaseController {
   private async serveTranspiledTs(relativePath: string): Promise<Response> {
     try {
       const fullPath = this.resolvePath(relativePath);
+      console.log(`[StaticController] Transpiling: ${fullPath}`);
       const code = await Deno.readTextFile(fullPath);
 
       // Strip CSS imports as they break in browser ESM
@@ -161,8 +170,20 @@ export class StaticController extends BaseController {
         },
       });
     } catch (error) {
-      console.error(`Error transpiling ${relativePath}:`, error);
+      console.error(`[StaticController] Error transpiling ${relativePath}:`, error);
       return ResponseFactory.serverError(`Transpilation failed: ${error.message}`);
+    }
+  }
+
+  private async listFileSystem(): Promise<Response> {
+    const files = [];
+    try {
+      for await (const entry of fsWalk(this.rootDir, { maxDepth: 5 })) {
+        files.push(entry.path.replace(this.rootDir, ""));
+      }
+      return ResponseFactory.success({ root: this.rootDir, files });
+    } catch (error) {
+      return ResponseFactory.error(`Failed to walk fs: ${error.message}`);
     }
   }
 }
