@@ -1,0 +1,144 @@
+<!-- Games Modal -->
+<div id="gamesModal" style="display:none" class="modal">
+    <div class="modalCard" style="max-width: 900px;">
+        <div
+            style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-lg);">
+            <h3><i class="fas fa-gamepad"></i> Club Games</h3>
+            <button id="closeGamesModal"
+                style="background:none; border:none; color:var(--muted); cursor:pointer; font-size:28px; transition:color 0.2s; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center;"
+                onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">×</button>
+        </div>
+
+        <div id="gamesFilter"
+            style="margin-bottom: var(--space-md); display:flex; gap:var(--space-md); flex-wrap:wrap; align-items:center;">
+            <select id="gameGroupFilter" class="input" style="width: 200px; margin-bottom: 0;">
+                <option value="">All games</option>
+            </select>
+            <label style="display:flex; align-items:center; gap:var(--space-sm); cursor:pointer; min-height: 44px;">
+                <input type="checkbox" id="popularOnly" style="cursor:pointer; min-width: 20px; min-height: 20px;"> Popular only
+            </label>
+        </div>
+
+        <div id="gamesGrid"
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: var(--space-md); max-height: 60vh; overflow-y: auto;">
+        </div>
+    </div>
+</div>
+
+<!-- PC Info Modal -->
+<div id="pcInfoModal" style="display:none" class="modal pc-info-modal">
+    <div class="modalCard">
+        <div class="pc-info-header">
+            <div class="pc-status-icon" id="pcStatusIcon"></div>
+            <div style="flex:1;">
+                <h3 id="pcInfoTitle" style="margin:0; font-size:1.25rem;"></h3>
+                <div class="small" id="pcInfoGroup"></div>
+            </div>
+            <button id="closePcInfoModal"
+                style="background:none; border:1px solid var(--border); border-radius:var(--radius-sm); padding:4px 12px; color:var(--muted); cursor:pointer; font-size:20px; transition:all 0.2s;"
+                onmouseover="this.style.borderColor='var(--border-strong)'; this.style.color='var(--text)'"
+                onmouseout="this.style.borderColor='var(--border)'; this.style.color='var(--muted)'">×</button>
+        </div>
+
+        <div id="pcCurrentStatus"></div>
+
+        <div id="pcBookings" style="display:none">
+            <div class="small" style="margin-bottom:var(--space-sm); font-weight:500;">Future bookings:</div>
+            <div class="booking-list" id="pcBookingsList"
+                style="display:flex; flex-direction:column; gap:var(--space-sm);"></div>
+        </div>
+
+        <div style="display:flex; gap:var(--space-sm); margin-top:var(--space-lg);">
+            <button id="pcInfoBookBtn" class="btn primary" style="flex:1">
+                <i class="fas fa-calendar-plus"></i> Book
+            </button>
+            <button id="closePcInfoBtn" class="btn">Close</button>
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div id="loginScreen" style="display:none" class="modal">
+    <div class="modalCard">
+        <h3><i class="fas fa-sign-in-alt"></i> Client Login</h3>
+        <div style="margin-top:var(--space-md)">
+            <label class="label small"
+                style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Phone</label>
+            <input id="loginInput" class="input" placeholder="+371..." />
+        </div>
+        <div style="margin-top:var(--space-md)">
+            <label class="label small"
+                style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Password</label>
+            <input id="passwordInput" class="input" type="password" placeholder="•••••••••" />
+        </div>
+        <div style="display:flex;gap:var(--space-sm);margin-top:var(--space-lg);">
+            <button id="loginSubmit" class="btn primary" style="flex:1;">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+            <button id="loginCancel" class="btn">Cancel</button>
+        </div>
+        <div id="loginError" style="color:#f87171;margin-top:var(--space-md); font-size:0.875rem;"></div>
+    </div>
+</div>
+
+<!-- Booking Modal -->
+<div id="bookingModal" style="display:none" class="modal">
+    <div class="modalCard">
+        <h3 id="bookingTitle"><i class="fas fa-calendar-check"></i> Book a Seat</h3>
+        <div id="selectedHostInfo" style="margin:var(--space-md) 0;color:var(--muted); font-size:0.875rem;"></div>
+
+        <div style="margin-top:var(--space-md)">
+            <label class="label small" style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Start
+                time</label>
+            <input id="datetime" class="input" type="datetime-local" />
+        </div>
+        <div style="margin-top:var(--space-md)">
+            <label class="label small"
+                style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Duration</label>
+            <select id="duration" class="input">
+                <option value="1">1 hour</option>
+                <option value="2">2 hours</option>
+                <option value="3">3 hours</option>
+                <option value="4">4 hours</option>
+                <option value="6">6 hours</option>
+                <option value="8">8 hours</option>
+            </select>
+        </div>
+        <div style="margin-top:var(--space-md)">
+            <label class="label small"
+                style="display:block; margin-bottom:var(--space-xs); font-weight:500;">Comment (optional)</label>
+            <textarea id="comment" class="input" rows="3" placeholder="Additional requests..."></textarea>
+        </div>
+
+        <div style="display:flex;gap:var(--space-sm);margin-top:var(--space-lg)">
+            <button id="cancelBooking" class="btn">Cancel</button>
+            <button id="confirmBooking" class="btn primary" style="flex:1;">
+                <i class="fas fa-check"></i> Confirm Booking
+            </button>
+        </div>
+        <div id="formMessage" style="margin-top:var(--space-md); font-size:0.875rem;"></div>
+    </div>
+</div>
+
+<!-- Leaderboard Modal -->
+<div id="leaderboardModal" style="display:none" class="modal">
+    <div class="modalCard" style="max-width:700px;">
+        <div
+            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-lg);">
+            <h3 style="margin:0;"><i class="fas fa-trophy"></i> Leaderboard</h3>
+            <button id="closeLeaderboardModal"
+                style="background:none; border:none; font-size:28px; cursor:pointer; color:var(--muted); transition:color 0.2s;"
+                onmouseover="this.style.color='var(--text)'" onmouseout="this.style.color='var(--muted)'">×</button>
+        </div>
+
+        <div id="leaderboardMonth" class="small"
+            style="margin-bottom:var(--space-lg); color:var(--muted); font-weight:500;"></div>
+
+        <div id="leaderboardContent" style="display:flex; flex-direction:column; gap:var(--space-sm);">
+            <div style="text-align:center; padding:var(--space-xl); color:var(--muted);">
+                <div class="spinner" style="margin:0 auto var(--space-md);"></div>
+                Loading...
+            </div>
+        </div>
+    </div>
+</div>
