@@ -5,7 +5,8 @@
  */
 import { BaseController } from './BaseController.ts';
 import { ResponseFactory } from '../factories/ResponseFactory.ts';
-import * as esbuild from "https://deno.land/x/esbuild@v0.20.0/mod.js";
+// Use WASM version of esbuild for Deno Deploy (read-only environment)
+import * as esbuild from "https://deno.land/x/esbuild@v0.20.0/wasm.js";
 import { join, dirname, fromFileUrl, walk } from "https://deno.land/std@0.208.0/path/mod.ts";
 import { walk as fsWalk } from "https://deno.land/std@0.208.0/fs/walk.ts";
 
@@ -31,13 +32,17 @@ export class StaticController extends BaseController {
   private async initEsbuild() {
     if (!this.esbuildInitialized) {
       try {
+        // Initialize WASM esbuild
+        // We don't need to specify wasmURL if we trust the module defaults,
+        // but explicit worker: false is good for Deno Deploy.
         await esbuild.initialize({
           worker: false,
         });
         this.esbuildInitialized = true;
-        console.log("[StaticController] Esbuild initialized");
+        console.log("[StaticController] Esbuild (WASM) initialized");
       } catch (e) {
         // May already be initialized
+        console.log("[StaticController] Esbuild initialization skipped/failed", e);
         this.esbuildInitialized = true;
       }
     }
@@ -49,8 +54,6 @@ export class StaticController extends BaseController {
   async serveStatic(req: Request): Promise<Response> {
     const url = new URL(req.url);
     let pathname = url.pathname;
-
-    console.log(`[StaticController] Handling request: ${pathname}`);
 
     // Debug endpoint to list files
     if (pathname === "/api/debug/fs") {
@@ -127,7 +130,6 @@ export class StaticController extends BaseController {
   private async serveFile(relativePath: string, contentType: string): Promise<Response> {
     try {
       const fullPath = this.resolvePath(relativePath);
-      console.log(`[StaticController] Serving file: ${fullPath} as ${contentType}`);
       const file = await Deno.readFile(fullPath);
       return new Response(file, {
         headers: {
@@ -144,7 +146,6 @@ export class StaticController extends BaseController {
   private async serveTranspiledTs(relativePath: string): Promise<Response> {
     try {
       const fullPath = this.resolvePath(relativePath);
-      console.log(`[StaticController] Transpiling: ${fullPath}`);
       const code = await Deno.readTextFile(fullPath);
 
       // Strip CSS imports as they break in browser ESM
