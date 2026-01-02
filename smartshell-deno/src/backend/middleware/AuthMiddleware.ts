@@ -20,10 +20,13 @@ export function createAuthMiddleware(authService: IAuthService) {
     const url = new URL(req.url);
     const pathname = url.pathname;
     
+    console.log(`[AuthMiddleware] Incoming request: ${req.method} ${pathname} (Full URL: ${req.url})`);
+
     // Skip auth for public endpoints
     const publicPaths = [
       '/',
       '/index.html',
+      '/favicon.ico',
       '/api/login',
       '/api/validate-session',
       '/api/shortcuts',
@@ -54,7 +57,8 @@ export function createAuthMiddleware(authService: IAuthService) {
     
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       console.log(`[AuthMiddleware] Rejecting request - ${!authHeader ? 'No auth header' : 'Invalid format (missing Bearer prefix)'}`);
-      return ResponseFactory.unauthorized("Missing or invalid authorization header");
+      // Return details in error for debugging (REMOVE IN PROD)
+      return ResponseFactory.unauthorized(`Missing or invalid authorization header for path: ${pathname}`);
     }
 
     const sessionId = authHeader.slice(7);

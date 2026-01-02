@@ -55,6 +55,8 @@ export class StaticController extends BaseController {
     const url = new URL(req.url);
     let pathname = url.pathname;
 
+    console.log(`[StaticController] Serving request for: ${pathname}`);
+
     // Debug endpoint to list files
     if (pathname === "/api/debug/fs") {
       return this.listFileSystem();
@@ -62,7 +64,8 @@ export class StaticController extends BaseController {
 
     // Default to index-refactored.html for root
     if (pathname === "/" || pathname === "/index.html") {
-      return this.serveFile("frontend/index-refactored.html", "text/html");
+      console.log(`[StaticController] Serving index-refactored.html for path ${pathname}`);
+      return this.serveFile("src/frontend/index-refactored.html", "text/html");
     }
 
     // Security check: prevent directory traversal
@@ -104,6 +107,7 @@ export class StaticController extends BaseController {
     else if (pathname.endsWith(".jpg")) contentType = "image/jpeg";
     else if (pathname.endsWith(".svg")) contentType = "image/svg+xml";
     else if (pathname.endsWith(".json")) contentType = "application/json";
+    else if (pathname.endsWith(".ico")) contentType = "image/x-icon";
 
     if (await this.fileExists(relativePath)) {
       return this.serveFile(relativePath, contentType);
@@ -130,6 +134,7 @@ export class StaticController extends BaseController {
   private async serveFile(relativePath: string, contentType: string): Promise<Response> {
     try {
       const fullPath = this.resolvePath(relativePath);
+      console.log(`[StaticController] Serving file: ${fullPath} as ${contentType}`);
       const file = await Deno.readFile(fullPath);
       return new Response(file, {
         headers: {
@@ -146,6 +151,7 @@ export class StaticController extends BaseController {
   private async serveTranspiledTs(relativePath: string): Promise<Response> {
     try {
       const fullPath = this.resolvePath(relativePath);
+      console.log(`[StaticController] Transpiling: ${fullPath}`);
       const code = await Deno.readTextFile(fullPath);
 
       // Strip CSS imports as they break in browser ESM
