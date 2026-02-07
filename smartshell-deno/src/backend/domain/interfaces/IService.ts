@@ -75,6 +75,11 @@ export interface IBookingService {
    * Get available time slots for hosts
    */
   getAvailableTimeSlots(hostIds: number[], date: Date): Promise<TimeSlot[]>;
+
+  /**
+   * Get all bookings
+   */
+  getAllBookings(): Promise<Booking[]>;
 }
 
 /**

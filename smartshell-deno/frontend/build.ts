@@ -3,8 +3,8 @@
  * Compiles TypeScript and bundles the frontend
  */
 
-const SRC_DIR = "./src";
-const DIST_DIR = "./dist";
+import * as esbuild from "https://deno.land/x/esbuild@v0.19.11/mod.js";
+import { denoPlugins } from "https://deno.land/x/esbuild_deno_loader@0.9.0/mod.ts";
 
 /**
  * Main build function
@@ -13,16 +13,43 @@ async function build(): Promise<void> {
   console.log("Building frontend...");
   
   try {
-    // Ensure output directory exists
-    // await ensureDir(DIST_DIR);
+    // Create dist directories
+    try {
+      await Deno.mkdir("./dist", { recursive: true });
+      await Deno.mkdir("./dist/styles", { recursive: true });
+    } catch {}
     
-    // Compile TypeScript files (in a real project, you'd use deno compile or tsc)
-    // For this example, we'll just copy the files as if they were compiled
+    // 1. Bundle TypeScript
+    await esbuild.build({
+      plugins: [...denoPlugins()],
+      entryPoints: ["../src/frontend/index.ts"],
+      outfile: "./dist/bundle.js",
+      bundle: true,
+      format: "esm",
+      minify: true,
+      sourcemap: true,
+    });
+
+    // 2. Process HTML
+    let html = await Deno.readTextFile("./index-refactored.html");
+    html = html.replace(/src=".*\/src\/frontend\/index\.(ts|js)"/g, 'src="/bundle.js"');
+    html = html.replace(/href=".*\/src\/frontend\/styles\/main\.css"/g, 'href="/styles/main.css"');
+    await Deno.writeTextFile("./dist/index.html", html);
+
+    // 3. Copy CSS
+    try {
+      await Deno.copyFile("../src/frontend/styles/main.css", "./dist/styles/main.css");
+    } catch (e) {
+      console.warn("⚠️ CSS file not found or copy failed:", e);
+    }
     
-    console.log("Frontend build complete!");
+    console.log("✅ Build complete! Files are in frontend/dist/");
+    console.log("👉 Now restart main.ts to serve the production build.");
   } catch (error) {
-    console.error("Build failed:", error);
+    console.error("❌ Build failed:", error);
     Deno.exit(1);
+  } finally {
+    esbuild.stop();
   }
 }
 

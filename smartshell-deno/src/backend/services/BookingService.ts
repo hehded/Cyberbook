@@ -52,6 +52,20 @@ export class BookingService implements IBookingService {
   }
 
   /**
+   * Get all bookings
+   */
+  async getAllBookings(): Promise<Booking[]> {
+    try {
+      const bookings = await this.bookingRepository.findAll();
+      console.log(`Found ${bookings.length} total bookings`);
+      return bookings;
+    } catch (error) {
+      console.error('Get all bookings error:', error);
+      throw new BookingError(`Failed to get all bookings: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  /**
    * Create a new booking
    */
   async createBooking(request: CreateBookingRequest): Promise<Booking> {

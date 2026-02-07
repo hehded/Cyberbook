@@ -3,7 +3,6 @@
  * Initializes the refactored frontend architecture
  */
 
-import './styles/main.css';
 import { app } from './modules/App.ts';
 import { MapComponent } from './modules/MapComponent.ts';
 
@@ -11,11 +10,13 @@ import { MapComponent } from './modules/MapComponent.ts';
  * Initialize the frontend application
  */
 function initializeFrontend(): void {
-  // Load templates into DOM
-  loadTemplates();
+  // Templates are already loaded by waitForDOM -> loadTemplates().then(...)
   
   // Initialize components
   initializeComponents();
+  
+  // Mount app (bind global UI events)
+  app.mount();
   
   // Start the application
   // App constructor automatically initializes itself

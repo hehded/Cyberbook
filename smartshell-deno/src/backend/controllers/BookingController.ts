@@ -100,10 +100,8 @@ export class BookingController extends BaseController {
   async getBookings(req: Request): Promise<Response> {
     return this.handleRequest(async () => {
       try {
-        // For this endpoint, we'll get all bookings (admin function)
-        // In a real application, this would require admin authentication
-        const bookings = await this.bookingService.getBookingById(0); // This is a workaround
-        return ResponseFactory.success([]); // Return empty array for now
+        const bookings = await this.bookingService.getAllBookings();
+        return ResponseFactory.success(bookings);
       } catch (error) {
         console.error("Get bookings error:", error);
         return ResponseFactory.error("Failed to fetch bookings", 500);

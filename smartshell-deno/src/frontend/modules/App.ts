@@ -250,6 +250,46 @@ export class App {
   }
 
   /**
+   * Mount application to DOM (bind UI events)
+   */
+  public mount(): void {
+    // Bind header buttons
+    const refreshBtn = document.getElementById('refresh');
+    if (refreshBtn) {
+      refreshBtn.addEventListener('click', () => {
+        this.loadInitialData();
+        this.showError('Refreshing data...'); // Using toast for feedback
+      });
+    }
+
+    const authBtn = document.getElementById('authBtn');
+    if (authBtn) {
+      authBtn.addEventListener('click', () => {
+        const state = this.getState();
+        if (state.auth.isAuthenticated) {
+          // Logout
+          localStorage.removeItem('sessionId');
+          localStorage.removeItem('user');
+          stateStore.setStateSlice('auth', { 
+            isAuthenticated: false, 
+            user: null, 
+            sessionId: null 
+          });
+          eventBus.publish(EVENTS.USER_LOGOUT, {});
+        } else {
+          eventBus.publish(EVENTS.MODAL_OPEN, { type: 'login' });
+        }
+      });
+    }
+
+    // Bind other global UI elements if needed
+    const groupFilter = document.getElementById('groupFilter') as HTMLSelectElement;
+    if (groupFilter) {
+      // Populate and bind group filter logic here if needed
+    }
+  }
+
+  /**
    * Handle window resize
    */
   private handleResize(): void {

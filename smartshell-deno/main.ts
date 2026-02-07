@@ -22,7 +22,118 @@ async function main() {
     // Create request handler with middleware
     const requestHandler = async (req: Request): Promise<Response> => {
       // Apply middleware chain
-      return middleware(req, () => router.handleRequest(req));
+      return middleware(req, async () => {
+        const url = new URL(req.url);
+        const pathname = url.pathname;
+
+        // 1. Serve static files (Frontend)
+        if (pathname === "/" || pathname === "/index.html") {
+          try {
+            // Try serving production build first
+            const html = await Deno.readTextFile("./frontend/dist/index.html");
+            return new Response(html, {
+              headers: { "Content-Type": "text/html; charset=utf-8" },
+            });
+          } catch {
+            // Fallback to source (requires dev server or browser TS support)
+            try {
+              const html = await Deno.readTextFile("./frontend/index-refactored.html");
+              return new Response(html, {
+                headers: { "Content-Type": "text/html; charset=utf-8" },
+              });
+            } catch {
+              return new Response("Frontend not found. Run 'deno run -A build.ts' in frontend/ folder.", { status: 404 });
+            }
+          }
+        }
+
+        // Handle favicon
+        if (pathname === "/favicon.ico") {
+          return new Response(null, { status: 204 });
+        }
+
+        // Serve production assets (bundle.js, styles, assets)
+        if (pathname === "/bundle.js" || pathname.startsWith("/assets/") || pathname.startsWith("/styles/")) {
+          try {
+            const filePath = `./frontend/dist${pathname}`;
+            const file = await Deno.readFile(filePath);
+            const ext = pathname.split(".").pop() || "";
+            const contentType = {
+              "css": "text/css",
+              "js": "application/javascript",
+              "png": "image/png",
+              "jpg": "image/jpeg",
+              "svg": "image/svg+xml"
+            }[ext] || "text/plain";
+            
+            return new Response(file, {
+              headers: { "Content-Type": contentType },
+            });
+          } catch {
+            // Continue to next check if file not found in dist
+          }
+        }
+
+        if (pathname.startsWith("/src/") || pathname.startsWith("/frontend/")) {
+          try {
+            let filePath = `.${pathname}`;
+            let file: Uint8Array;
+            
+            try {
+              file = await Deno.readFile(filePath);
+            } catch {
+              // If .js file not found, try .ts
+              if (filePath.endsWith('.js')) {
+                filePath = filePath.replace(/\.js$/, '.ts');
+                file = await Deno.readFile(filePath);
+              } else {
+                throw new Error('File not found');
+              }
+            }
+
+            const ext = filePath.split(".").pop() || "";
+            const contentType = {
+              "css": "text/css",
+              "js": "application/javascript",
+              "ts": "application/javascript", // Serve TS as JS for browser compatibility
+              "html": "text/html",
+              "json": "application/json",
+              "png": "image/png",
+              "jpg": "image/jpeg",
+              "svg": "image/svg+xml"
+            }[ext] || "text/plain";
+            
+            return new Response(file, {
+              headers: { "Content-Type": contentType },
+            });
+          } catch {
+            // Continue to router if file not found
+          }
+        }
+
+        // Serve templates
+        if (pathname.startsWith("/templates/")) {
+          const templatePaths = [
+            `./src/frontend${pathname}`,
+            `./frontend${pathname}`,
+            `./src${pathname}`
+          ];
+
+          for (const path of templatePaths) {
+            try {
+              const file = await Deno.readFile(path);
+              return new Response(file, {
+                headers: { "Content-Type": "text/html" },
+              });
+            } catch {
+              // Continue to next path
+            }
+          }
+        }
+
+        // 2. Handle API requests via Router
+        return router.handleRequest(req);
+      });
     };
     
     // Start the HTTP server
