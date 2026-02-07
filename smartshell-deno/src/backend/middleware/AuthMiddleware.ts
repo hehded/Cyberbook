@@ -29,7 +29,10 @@ export function createAuthMiddleware(authService: IAuthService) {
       '/api/validate-session',
       '/api/shortcuts',
       '/api/leaderboard',
-      '/api/achievements'
+      '/api/achievements',
+      '/api/hosts',       // Public host list
+      '/api/bookings',    // Public booking schedule
+      '/api/debug/fs'     // Debug endpoint
     ];
     
     // Public prefixes (allow sub-paths like /api/hosts/nearby)
@@ -39,16 +42,12 @@ export function createAuthMiddleware(authService: IAuthService) {
     ];
     
     // Skip auth for static assets (css, js, images, etc.)
-    const isStaticAsset = pathname.match(/\.(css|js|ts|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot|html|map|json)$/i);
+    const isStaticAsset = pathname.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|eot)$/i);
     
     // Skip auth for OPTIONS requests
     const isOptionsRequest = req.method === 'OPTIONS';
     
-    // Skip auth for static directories
-    const isStaticDir = pathname.startsWith('/src/') || pathname.startsWith('/frontend/');
-    
-    if (publicPaths.includes(pathname) || publicPrefixes.some(prefix => pathname.startsWith(prefix)) || 
-        isStaticAsset || isOptionsRequest || isStaticDir) {
+    if (publicPaths.includes(pathname) || isStaticAsset || isOptionsRequest) {
       console.log(`[AuthMiddleware] Skipping auth for public path: ${pathname}`);
       return await next();
     }
